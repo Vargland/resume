@@ -104,4 +104,31 @@ export const es: ResumeData = {
     'Frontend Lead con 8+ años de experiencia construyendo aplicaciones escalables y liderando equipos de alto rendimiento. Mi formación en Psicología da forma a mi enfoque de UX y dinámicas de equipo.',
     'Expertise profundo en <strong>Design Systems</strong>, arquitectura de componentes y <strong>workflows de desarrollo aumentados con IA</strong> — desde librerías NPM hasta servidores MCP que conectan herramientas de diseño con asistentes de IA.',
   ],
+  ui: {
+    nav: {
+      aiProjects: 'Proyectos IA',
+      education: 'Educación',
+      experience: 'Experiencia',
+      menu: 'Menú',
+      skills: 'Habilidades',
+      summary: 'Resumen',
+      toggleMenu: 'Abrir menú de navegación',
+    },
+    sections: {
+      aiProjects: 'Proyectos IA',
+      contact: 'Construido con void-ui — un design system AI-native',
+      education: 'Educación',
+      experience: 'Experiencia',
+      skills: 'Habilidades',
+      summary: 'Resumen',
+    },
+    theme: {
+      lore: 'Lore',
+      moons: 'Lunas',
+      planets: 'Planetas',
+      switchTo: 'Cambiar a',
+      title: 'Tema',
+      toggle: 'Cambiar tema planetario',
+    },
+  },
 }

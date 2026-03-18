@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Typography, usePlanet } from '@open-void-ui/library'
 
+import { useResume } from '../../context/resume-context'
 import { PLANET_GROUPS, PLANETS, savePlanet } from '../../theme/planets'
 
 const planetStyles = `
@@ -46,6 +47,8 @@ function PlanetIcon({ accent }: { accent?: string }) {
 
 export function ThemeSelector() {
   const { planet, setPlanet } = usePlanet()
+  const { data } = useResume()
+  const t = data.ui.theme
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -66,7 +69,7 @@ export function ThemeSelector() {
         {/* Trigger */}
         <button
           onClick={() => setOpen(o => !o)}
-          aria-label="Switch planet theme"
+          aria-label={t.toggle}
           aria-expanded={open}
           style={{
             width: '36px',
@@ -126,24 +129,25 @@ export function ThemeSelector() {
               }}>
                 <PlanetIcon accent={current?.accent} />
                 <Typography as="p" size="xs" color="muted" style={{ letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  Theme
+                  {t.title}
                 </Typography>
               </div>
 
               {/* Planet groups */}
-              {PLANET_GROUPS.map(({ category, label: groupLabel }) => {
+              {PLANET_GROUPS.map(({ category }) => {
                 const items = PLANETS.filter(p => p.category === category)
+                const groupLabel = t[category]
                 return (
                   <div key={category}>
                     <div style={{
-                      padding: '6px 10px 4px',
                       marginTop: '4px',
+                      padding: '6px 10px 4px',
                     }}>
                       <Typography
                         as="p"
-                        size="xs"
                         color="muted"
-                        style={{ letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.65rem' }}
+                        size="xs"
+                        style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}
                       >
                         {groupLabel}
                       </Typography>
@@ -153,7 +157,7 @@ export function ThemeSelector() {
                       return (
                         <button
                           key={p.name}
-                          aria-label={`Switch to ${p.label}`}
+                          aria-label={`${t.switchTo} ${p.label}`}
                           style={{
                             alignItems: 'center',
                             background: isActive ? 'var(--void-color-background-surface)' : 'transparent',

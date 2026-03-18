@@ -24,7 +24,7 @@ export function Summary() {
         gap={8}
         style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '640px' }}
       >
-        <Divider label="Summary" />
+        <Divider label={data.ui.sections.summary} />
         <Stack direction="column" gap={4}>
           {data.summary.map((paragraph, i) => (
             <Typography

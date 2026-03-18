@@ -44,7 +44,7 @@ export function Skills() {
         gap={8}
         style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '640px' }}
       >
-        <Divider label="Skills" />
+        <Divider label={data.ui.sections.skills} />
         <Stack direction="column" gap={6}>
           {data.skillGroups.map((group) => (
             <SkillGroupItem key={group.label} group={group} />

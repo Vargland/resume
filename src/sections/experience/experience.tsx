@@ -64,7 +64,7 @@ export function Experience() {
         gap={10}
         style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '640px' }}
       >
-        <Divider label="Experience" />
+        <Divider label={data.ui.sections.experience} />
         <Stack direction="column" gap={10}>
           {data.experience.map((role, i) => (
             <RoleItem

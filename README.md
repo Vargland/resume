@@ -1,4 +1,4 @@
-# Germán Román — Resume
+# German Roman — Resume
 
 Personal resume built as a single-page React application, showcasing professional experience, skills, and AI projects.
 

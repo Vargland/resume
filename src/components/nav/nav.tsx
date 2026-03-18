@@ -1,15 +1,19 @@
 import { useState } from 'react'
 
-const NAV_LINKS = [
-  { href: '#summary', label: 'Summary' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#projects', label: 'AI Projects' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#education', label: 'Education' },
-]
+import { useResume } from '../../context/resume-context'
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { data } = useResume()
+  const { nav } = data.ui
+
+  const NAV_LINKS = [
+    { href: '#summary',    label: nav.summary    },
+    { href: '#experience', label: nav.experience },
+    { href: '#projects',   label: nav.aiProjects },
+    { href: '#skills',     label: nav.skills     },
+    { href: '#education',  label: nav.education  },
+  ]
 
   return (
     <nav
@@ -72,12 +76,12 @@ export function Nav() {
             textTransform: 'uppercase',
           }}
         >
-          Menu
+          {nav.menu}
         </span>
         <button
           aria-controls="mobile-menu"
           aria-expanded={menuOpen}
-          aria-label="Toggle navigation menu"
+          aria-label={nav.toggleMenu}
           style={{
             alignItems: 'center',
             background: 'transparent',

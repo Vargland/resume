@@ -79,7 +79,7 @@ export function AiProjects() {
         gap={8}
         style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '640px' }}
       >
-        <Divider label="AI Projects" />
+        <Divider label={data.ui.sections.aiProjects} />
         <Tabs defaultValue={data.projects[0].name} variant="line">
           <TabsList>
             {data.projects.map((p) => (

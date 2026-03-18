@@ -54,6 +54,36 @@ export interface SkillGroup {
   label: string
 }
 
+// ── UI strings ────────────────────────────────────────────────────────────────
+
+export interface UIStrings {
+  nav: {
+    aiProjects: string
+    education: string
+    experience: string
+    menu: string
+    skills: string
+    summary: string
+    toggleMenu: string
+  }
+  sections: {
+    aiProjects: string
+    contact: string
+    education: string
+    experience: string
+    skills: string
+    summary: string
+  }
+  theme: {
+    lore: string
+    moons: string
+    planets: string
+    switchTo: string
+    title: string
+    toggle: string
+  }
+}
+
 // ── Resume ────────────────────────────────────────────────────────────────────
 
 export interface ResumeData {
@@ -78,4 +108,5 @@ export interface ResumeData {
   projects: Project[]
   skillGroups: SkillGroup[]
   summary: string[]
+  ui: UIStrings
 }

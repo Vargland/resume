@@ -104,4 +104,31 @@ export const en: ResumeData = {
     'Frontend Lead with 8+ years of experience building scalable applications and leading high-performing engineering teams. My background in Psychology uniquely shapes my approach to UX and team dynamics.',
     'Deep expertise in <strong>Design Systems</strong>, component architecture, and <strong>AI-augmented development workflows</strong> — from authoring NPM libraries to shipping MCP servers that bridge design tools and AI assistants.',
   ],
+  ui: {
+    nav: {
+      aiProjects: 'AI Projects',
+      education: 'Education',
+      experience: 'Experience',
+      menu: 'Menu',
+      skills: 'Skills',
+      summary: 'Summary',
+      toggleMenu: 'Toggle navigation menu',
+    },
+    sections: {
+      aiProjects: 'AI Projects',
+      contact: 'Built with void-ui — an AI-native design system',
+      education: 'Education',
+      experience: 'Experience',
+      skills: 'Skills',
+      summary: 'Summary',
+    },
+    theme: {
+      lore: 'Lore',
+      moons: 'Moons',
+      planets: 'Planets',
+      switchTo: 'Switch to',
+      title: 'Theme',
+      toggle: 'Switch planet theme',
+    },
+  },
 }

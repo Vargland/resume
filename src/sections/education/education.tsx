@@ -61,7 +61,7 @@ export function Education() {
         gap={8}
         style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '640px' }}
       >
-        <Divider label="Education" />
+        <Divider label={data.ui.sections.education} />
         <Stack direction="column" gap={6}>
           {data.education.map((entry) => (
             <EducationItem
