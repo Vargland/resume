@@ -21,6 +21,11 @@ Personal resume built as a single-page React application, showcasing professiona
 - **Education** — academic background
 - **Contact** — contact information
 
+## Docs
+
+- [`docs/architecture.md`](docs/architecture.md) — stack, folder structure, data flow, theming, i18n, SEO
+- [`docs/guidelines.md`](docs/guidelines.md) — code style rules, conventions, component patterns
+
 ## Development
 
 ```bash
