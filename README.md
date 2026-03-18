@@ -2,12 +2,14 @@
 
 Personal resume built as a single-page React application, showcasing professional experience, skills, and AI projects.
 
+**Live:** https://vargland.github.io/resume
+
 ## Tech Stack
 
 - **React** + **TypeScript** via Vite
 - **open-void-ui** — custom design system and component library
-- **Tailwind CSS** for utility styling
 - Theming system with multiple planet-inspired themes
+- i18n support (EN / ES)
 
 ## Sections
 
@@ -30,4 +32,12 @@ npm run dev
 
 ```bash
 npm run build
+```
+
+## Deploy
+
+Publishes to GitHub Pages at https://vargland.github.io/resume
+
+```bash
+npm run deploy
 ```

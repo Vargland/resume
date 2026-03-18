@@ -23,7 +23,7 @@ const ResumeContext = createContext<ResumeContextValue | null>(null)
 export function ResumeProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(() => {
     const stored = localStorage.getItem('cv-locale')
-    return (stored === 'es' || stored === 'en') ? stored : 'en'
+    return stored === 'es' ? 'es' : 'en'
   })
 
   const setLocale = useCallback((next: Locale) => {
