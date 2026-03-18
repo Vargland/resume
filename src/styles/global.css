@@ -17,6 +17,10 @@ a {
   text-decoration: none;
 }
 
+.nav-link:hover {
+  color: var(--void-color-text-primary) !important;
+}
+
 [data-void-provider] {
   min-height: 100vh;
   background: var(--void-color-background-base);

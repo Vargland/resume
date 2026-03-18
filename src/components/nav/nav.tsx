@@ -13,71 +13,57 @@ export function Nav() {
 
   return (
     <nav
+      id="main-nav"
+      className="fixed top-0 left-0 right-0 z-50 px-6 py-[18px]"
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
         background: 'var(--void-color-background-base)',
         borderBottom: '1px solid var(--void-color-border-subtle)',
-        padding: '18px 24px 14px',
       }}
     >
       {/* Desktop */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '32px',
-        }}
-        className="hidden-mobile"
-      >
+      <ul role="list" className="hidden md:flex justify-center gap-8">
         {NAV_LINKS.map(({ href, label }) => (
-          <a
-            key={href}
-            href={href}
-            className="text-xs tracking-widest uppercase transition-colors duration-200"
-            style={{ color: 'var(--void-color-text-muted)' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--void-color-text-primary)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--void-color-text-muted)')}
-          >
-            {label}
-          </a>
+          <li key={href}>
+            <a
+              href={href}
+              className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
+              style={{ color: 'var(--void-color-text-muted)' }}
+            >
+              {label}
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
 
-      {/* Mobile */}
-      <div className="show-mobile" style={{ display: 'none', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span className="text-xs tracking-widest uppercase" style={{ color: 'var(--void-color-text-muted)' }}>
+      {/* Mobile header */}
+      <div className="flex md:hidden justify-between items-center">
+        <span
+          className="text-xs tracking-widest uppercase"
+          style={{ color: 'var(--void-color-text-muted)' }}
+        >
           Menu
         </span>
         <button
+          aria-controls="mobile-menu"
+          aria-expanded={menuOpen}
+          aria-label="Toggle navigation menu"
+          className="p-1 flex flex-col gap-1 cursor-pointer bg-transparent border-0"
           onClick={() => setMenuOpen(o => !o)}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '4px',
-            padding: '4px',
-          }}
-          aria-label="Toggle menu"
         >
           {[0, 1, 2].map(i => (
             <span
               key={i}
+              className="block transition-all duration-200"
               style={{
-                display: 'block',
-                width: '18px',
-                height: '1.5px',
                 background: 'var(--void-color-text-muted)',
-                transition: 'transform 0.2s, opacity 0.2s',
-                transform: menuOpen
-                  ? i === 0 ? 'translateY(5.5px) rotate(45deg)' : i === 2 ? 'translateY(-5.5px) rotate(-45deg)' : 'scaleX(0)'
-                  : 'none',
+                height: '1.5px',
                 opacity: menuOpen && i === 1 ? 0 : 1,
+                transform: menuOpen
+                  ? i === 0 ? 'translateY(5.5px) rotate(45deg)'
+                  : i === 2 ? 'translateY(-5.5px) rotate(-45deg)'
+                  : 'none'
+                  : 'none',
+                width: '18px',
               }}
             />
           ))}
@@ -86,40 +72,25 @@ export function Nav() {
 
       {/* Mobile dropdown */}
       {menuOpen && (
-        <div
-          className="show-mobile"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-            paddingTop: '16px',
-            paddingBottom: '4px',
-          }}
+        <ul
+          id="mobile-menu"
+          role="list"
+          className="flex md:hidden flex-col gap-4 pt-4 pb-1"
         >
           {NAV_LINKS.map(({ href, label }) => (
-            <a
-              key={href}
-              href={href}
-              onClick={() => setMenuOpen(false)}
-              className="text-xs tracking-widest uppercase"
-              style={{ color: 'var(--void-color-text-muted)' }}
-            >
-              {label}
-            </a>
+            <li key={href}>
+              <a
+                href={href}
+                className="nav-link text-xs tracking-widest uppercase"
+                style={{ color: 'var(--void-color-text-muted)' }}
+                onClick={() => setMenuOpen(false)}
+              >
+                {label}
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
-
-      <style>{`
-        @media (min-width: 640px) {
-          .hidden-mobile { display: flex !important; }
-          .show-mobile { display: none !important; }
-        }
-        @media (max-width: 639px) {
-          .hidden-mobile { display: none !important; }
-          .show-mobile { display: flex !important; }
-        }
-      `}</style>
     </nav>
   )
 }
