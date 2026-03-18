@@ -23,6 +23,7 @@ const ResumeContext = createContext<ResumeContextValue | null>(null)
 export function ResumeProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(() => {
     const stored = localStorage.getItem('cv-locale')
+
     return stored === 'es' ? 'es' : 'en'
   })
 
@@ -41,6 +42,8 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
 
 export function useResume(): ResumeContextValue {
   const ctx = useContext(ResumeContext)
+
   if (!ctx) throw new Error('useResume must be used inside <ResumeProvider>')
+
   return ctx
 }

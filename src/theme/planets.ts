@@ -34,6 +34,7 @@ const STORAGE_KEY = 'cv-planet'
 
 export function getInitialPlanet(): PlanetName {
   const stored = localStorage.getItem(STORAGE_KEY) as PlanetName | null
+
   return stored ?? 'mercury'
 }
 

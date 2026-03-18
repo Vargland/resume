@@ -23,6 +23,7 @@ const planetStyles = `
 
 function PlanetIcon({ accent }: { accent?: string }) {
   const color = accent ?? 'var(--void-color-action-primary)'
+
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Ring */}
@@ -137,6 +138,7 @@ export function ThemeSelector() {
               {PLANET_GROUPS.map(({ category }) => {
                 const items = PLANETS.filter(p => p.category === category)
                 const groupLabel = t[category]
+
                 return (
                   <div key={category}>
                     <div style={{
@@ -154,6 +156,7 @@ export function ThemeSelector() {
                     </div>
                     {items.map(p => {
                       const isActive = planet === p.name
+
                       return (
                         <button
                           key={p.name}
