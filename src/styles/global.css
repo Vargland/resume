@@ -22,3 +22,41 @@ a {
   background: var(--void-color-background-base);
   transition: background 0.4s ease, color 0.4s ease;
 }
+
+/* ── Print styles ─────────────────────────────────────────────────────────── */
+@media print {
+  /* Hide interactive/decorative elements */
+  nav,
+  [id="hero"] .flex.flex-row,  /* social buttons */
+  [data-void-theme-selector],
+  [aria-label="Language switcher"] {
+    display: none !important;
+  }
+
+  /* Reset backgrounds for ink savings */
+  body,
+  [data-void-provider],
+  section {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Prevent page breaks inside experience / education cards */
+  article {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Force links to show URL in parentheses */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75rem;
+    color: #555;
+  }
+
+  /* Remove glow / shadow effects */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}
