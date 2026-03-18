@@ -16,6 +16,7 @@ const LinkButton = Button as React.ComponentType<LinkButtonProps>
 
 export function Hero() {
   const { data } = useResume()
+
   const { contact, person } = data
 
   return (

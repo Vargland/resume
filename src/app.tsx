@@ -16,6 +16,7 @@ import { getInitialPlanet } from './theme/planets'
 
 function SeoHead() {
   const { data } = useResume()
+
   const { meta, person } = data
 
   return (

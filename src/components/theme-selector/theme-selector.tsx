@@ -27,6 +27,7 @@ interface PlanetIconProps {
 
 function PlanetIcon(props: PlanetIconProps) {
   const { accent } = props
+
   const color = accent ?? 'var(--void-color-action-primary)'
 
   return (
@@ -53,8 +54,11 @@ function PlanetIcon(props: PlanetIconProps) {
 
 export function ThemeSelector() {
   const { planet, setPlanet } = usePlanet()
+
   const { data } = useResume()
+
   const t = data.ui.theme
+
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -69,6 +73,7 @@ export function ThemeSelector() {
   const current = PLANETS.find(p => p.name === planet)
 
   return (
+
     <>
       <style>{planetStyles}</style>
       <div style={{ position: 'fixed', top: '56px', right: '16px', zIndex: 50 }}>
@@ -142,6 +147,7 @@ export function ThemeSelector() {
               {/* Planet groups */}
               {PLANET_GROUPS.map(({ category }) => {
                 const items = PLANETS.filter(p => p.category === category)
+
                 const groupLabel = t[category]
 
                 return (

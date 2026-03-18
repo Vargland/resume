@@ -16,6 +16,7 @@ function EducationItem(props: EducationItemProps) {
 
   if (entry.kind === 'formal') {
     const period = `${entry.period.start} – ${entry.period.end}`
+
     const subtitle = [entry.institution, entry.location].filter(Boolean).join(', ')
 
     return (

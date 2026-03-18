@@ -4,7 +4,9 @@ import { useResume } from '../../context/resume-context'
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
+
   const { data } = useResume()
+
   const { nav } = data.ui
 
   const NAV_LINKS = [

@@ -16,6 +16,7 @@ interface RoleItemProps {
 
 const RoleItem = memo(function RoleItem(props: RoleItemProps) {
   const { isLast, role } = props
+
   const period = `${role.period.start} – ${role.period.end}`
 
   return (
