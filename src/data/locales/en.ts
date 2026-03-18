@@ -59,10 +59,10 @@ export const en: ResumeData = {
     description:
       'Senior Frontend Architect & Design Systems Lead with 8+ years building scalable applications and design systems.',
     siteUrl: 'https://vargland.github.io/resume',
-    title: 'Germán Román — Senior Frontend Architect',
+    title: 'German Roman — Senior Frontend Architect',
   },
   person: {
-    name: 'Germán Román',
+    name: 'German Roman',
     title: 'Senior Frontend Architect & Design Systems Lead',
   },
   projects: [

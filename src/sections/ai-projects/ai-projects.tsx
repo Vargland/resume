@@ -22,7 +22,7 @@ const LinkButton = Button as React.ComponentType<LinkButtonProps>
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="pt-6 pb-2">
+    <article style={{ paddingBottom: '0.5rem', paddingTop: '1.5rem' }}>
       <Stack direction="column" gap={3}>
         <Stack direction="column" gap={1}>
           <Typography as="h3" color="primary" size="xl" weight="semibold">
@@ -35,7 +35,7 @@ function ProjectCard({ project }: { project: Project }) {
           {project.description}
         </Typography>
 
-        <ul className="flex flex-wrap gap-1.5" aria-label="Technologies">
+        <ul aria-label="Technologies" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
           {project.tech.map((t) => (
             <li key={t}>
               <Badge size="sm" variant="subtle">{t}</Badge>

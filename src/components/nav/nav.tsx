@@ -14,20 +14,40 @@ export function Nav() {
   return (
     <nav
       id="main-nav"
-      className="fixed top-0 left-0 right-0 z-50 px-6 py-[18px]"
       style={{
         background: 'var(--void-color-background-base)',
         borderBottom: '1px solid var(--void-color-border-subtle)',
+        left: 0,
+        padding: '18px 24px 14px',
+        position: 'fixed',
+        right: 0,
+        top: 0,
+        zIndex: 50,
       }}
     >
       {/* Desktop */}
-      <ul role="list" className="hidden md:flex justify-center gap-8">
+      <ul
+        role="list"
+        className="void-sm:flex"
+        style={{
+          display: 'none',
+          gap: '32px',
+          justifyContent: 'center',
+          listStyle: 'none',
+        }}
+      >
         {NAV_LINKS.map(({ href, label }) => (
           <li key={href}>
             <a
               href={href}
-              className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
-              style={{ color: 'var(--void-color-text-muted)' }}
+              className="nav-link"
+              style={{
+                color: 'var(--void-color-text-muted)',
+                fontSize: '0.75rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                transition: 'color 0.2s',
+              }}
             >
               {label}
             </a>
@@ -36,10 +56,21 @@ export function Nav() {
       </ul>
 
       {/* Mobile header */}
-      <div className="flex md:hidden justify-between items-center">
+      <div
+        className="void-sm:hidden"
+        style={{
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
         <span
-          className="text-xs tracking-widest uppercase"
-          style={{ color: 'var(--void-color-text-muted)' }}
+          style={{
+            color: 'var(--void-color-text-muted)',
+            fontSize: '0.75rem',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+          }}
         >
           Menu
         </span>
@@ -47,15 +78,24 @@ export function Nav() {
           aria-controls="mobile-menu"
           aria-expanded={menuOpen}
           aria-label="Toggle navigation menu"
-          className="p-1 flex flex-col gap-1 cursor-pointer bg-transparent border-0"
+          style={{
+            alignItems: 'center',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+            padding: '4px',
+          }}
           onClick={() => setMenuOpen(o => !o)}
         >
           {[0, 1, 2].map(i => (
             <span
               key={i}
-              className="block transition-all duration-200"
               style={{
                 background: 'var(--void-color-text-muted)',
+                display: 'block',
                 height: '1.5px',
                 opacity: menuOpen && i === 1 ? 0 : 1,
                 transform: menuOpen
@@ -63,6 +103,7 @@ export function Nav() {
                   : i === 2 ? 'translateY(-5.5px) rotate(-45deg)'
                   : 'none'
                   : 'none',
+                transition: 'transform 0.2s, opacity 0.2s',
                 width: '18px',
               }}
             />
@@ -75,14 +116,27 @@ export function Nav() {
         <ul
           id="mobile-menu"
           role="list"
-          className="flex md:hidden flex-col gap-4 pt-4 pb-1"
+          className="void-sm:hidden"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            listStyle: 'none',
+            paddingBottom: '4px',
+            paddingTop: '16px',
+          }}
         >
           {NAV_LINKS.map(({ href, label }) => (
             <li key={href}>
               <a
                 href={href}
-                className="nav-link text-xs tracking-widest uppercase"
-                style={{ color: 'var(--void-color-text-muted)' }}
+                className="nav-link"
+                style={{
+                  color: 'var(--void-color-text-muted)',
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                }}
                 onClick={() => setMenuOpen(false)}
               >
                 {label}

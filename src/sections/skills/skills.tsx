@@ -15,7 +15,7 @@ const SkillGroupItem = memo(function SkillGroupItem({ group }: { group: SkillGro
       <Typography as="p" color="muted" size="xs" weight="semibold">
         {group.label.toUpperCase()}
       </Typography>
-      <ul className="flex flex-wrap gap-1.5" aria-label={group.label}>
+      <ul aria-label={group.label} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
         {group.items.map((skill) => (
           <li key={skill}>
             <Badge size="sm" variant="subtle">{skill}</Badge>

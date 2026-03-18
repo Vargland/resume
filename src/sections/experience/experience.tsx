@@ -13,26 +13,26 @@ const RoleItem = memo(function RoleItem({ role, isLast }: { isLast: boolean; rol
   const period = `${role.period.start} – ${role.period.end}`
 
   return (
-    <article className="break-inside-avoid print:break-inside-avoid">
+    <article style={{ breakInside: 'avoid', pageBreakInside: 'avoid' }}>
       <Stack direction="column" gap={4}>
         <Stack direction="column" gap={1}>
-          <Stack align="center" className="flex-wrap" direction="row" gap={2}>
+          <Stack align="center" direction="row" gap={2} style={{ flexWrap: 'wrap' }}>
             <Typography as="h3" color="primary" size="lg" weight="semibold">
               {role.title}
             </Typography>
             <Badge size="sm" variant="subtle">{role.company}</Badge>
           </Stack>
-          <time className="block" dateTime={role.period.start}>
+          <time style={{ display: 'block' }} dateTime={role.period.start}>
             <Typography as="p" color="muted" size="sm">{period}</Typography>
           </time>
         </Stack>
 
-        <ul className="flex flex-col gap-2">
+        <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           {role.bullets.map((bullet) => (
-            <li key={bullet} className="flex items-baseline gap-2">
-              <Typography className="shrink-0" style={{ transform: 'translateY(2px)' }}>
+            <li key={bullet} style={{ alignItems: 'baseline', display: 'flex', gap: '0.5rem' }}>
+              <span style={{ flexShrink: 0, transform: 'translateY(2px)' }}>
                 <Badge dot size="sm" tone="success">{undefined}</Badge>
-              </Typography>
+              </span>
               <Typography as="p" color="secondary" leading="relaxed" size="sm">
                 {bullet}
               </Typography>

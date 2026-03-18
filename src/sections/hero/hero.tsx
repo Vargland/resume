@@ -21,15 +21,21 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="min-h-svh flex flex-col items-center justify-center px-6 pt-16 pb-12"
-      style={{ background: 'var(--void-color-background-base)' }}
+      style={{
+        alignItems: 'center',
+        background: 'var(--void-color-background-base)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        minHeight: '100svh',
+        padding: '4rem 1.5rem 3rem',
+      }}
     >
       <Stack
         align="center"
-        className="w-full text-center"
         direction="column"
         gap={6}
-        style={{ maxWidth: '480px' }}
+        style={{ maxWidth: '480px', textAlign: 'center', width: '100%' }}
       >
         <Avatar
           alt={person.name}
