@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
-import { usePlanet, Typography } from '@open-void-ui/library'
-import { PLANETS, savePlanet } from '../../theme/planets'
+import { useEffect, useState } from 'react'
+import { Typography, usePlanet } from '@open-void-ui/library'
+
+import { PLANET_GROUPS, PLANETS, savePlanet } from '../../theme/planets'
 
 const planetStyles = `
   @keyframes orbit {
@@ -129,58 +130,76 @@ export function ThemeSelector() {
                 </Typography>
               </div>
 
-              {/* Planet list */}
-              {PLANETS.map(p => {
-                const isActive = planet === p.name
+              {/* Planet groups */}
+              {PLANET_GROUPS.map(({ category, label: groupLabel }) => {
+                const items = PLANETS.filter(p => p.category === category)
                 return (
-                  <button
-                    key={p.name}
-                    onClick={() => handleSelect(p.name)}
-                    aria-label={`Switch to ${p.label}`}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                      width: '100%',
-                      padding: '6px 10px',
-                      borderRadius: 'var(--void-radius-sm)',
-                      background: isActive ? 'var(--void-color-background-surface)' : 'transparent',
-                      cursor: 'pointer',
-                      transition: 'background 0.15s',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--void-color-background-surface)' }}
-                    onMouseLeave={e => { e.currentTarget.style.background = isActive ? 'var(--void-color-background-surface)' : 'transparent' }}
-                  >
-                    <span
-                      style={{
-                        width: '8px',
-                        height: '8px',
-                        borderRadius: '50%',
-                        background: p.accent,
-                        flexShrink: 0,
-                        boxShadow: isActive ? `0 0 6px ${p.accent}bb` : 'none',
-                        transition: 'box-shadow 0.2s',
-                      }}
-                    />
-                    <Typography
-                      as="span"
-                      size="xs"
-                      color={isActive ? 'primary' : 'secondary'}
-                      style={{ flex: 1, textAlign: 'left', letterSpacing: '0.03em' }}
-                    >
-                      {p.label}
-                    </Typography>
-                    {isActive && (
-                      <span style={{
-                        width: '5px',
-                        height: '5px',
-                        borderRadius: '50%',
-                        background: p.accent,
-                        flexShrink: 0,
-                        boxShadow: `0 0 4px ${p.accent}`,
-                      }} />
-                    )}
-                  </button>
+                  <div key={category}>
+                    <div style={{
+                      padding: '6px 10px 4px',
+                      marginTop: '4px',
+                    }}>
+                      <Typography
+                        as="p"
+                        size="xs"
+                        color="muted"
+                        style={{ letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.65rem' }}
+                      >
+                        {groupLabel}
+                      </Typography>
+                    </div>
+                    {items.map(p => {
+                      const isActive = planet === p.name
+                      return (
+                        <button
+                          key={p.name}
+                          aria-label={`Switch to ${p.label}`}
+                          style={{
+                            alignItems: 'center',
+                            background: isActive ? 'var(--void-color-background-surface)' : 'transparent',
+                            borderRadius: 'var(--void-radius-sm)',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            gap: '10px',
+                            padding: '6px 10px',
+                            transition: 'background 0.15s',
+                            width: '100%',
+                          }}
+                          onClick={() => handleSelect(p.name)}
+                          onMouseEnter={e => { e.currentTarget.style.background = 'var(--void-color-background-surface)' }}
+                          onMouseLeave={e => { e.currentTarget.style.background = isActive ? 'var(--void-color-background-surface)' : 'transparent' }}
+                        >
+                          <span style={{
+                            background: p.accent,
+                            borderRadius: '50%',
+                            boxShadow: isActive ? `0 0 6px ${p.accent}bb` : 'none',
+                            flexShrink: 0,
+                            height: '8px',
+                            transition: 'box-shadow 0.2s',
+                            width: '8px',
+                          }} />
+                          <Typography
+                            as="span"
+                            color={isActive ? 'primary' : 'secondary'}
+                            size="xs"
+                            style={{ flex: 1, letterSpacing: '0.03em', textAlign: 'left' }}
+                          >
+                            {p.label}
+                          </Typography>
+                          {isActive && (
+                            <span style={{
+                              background: p.accent,
+                              borderRadius: '50%',
+                              boxShadow: `0 0 4px ${p.accent}`,
+                              flexShrink: 0,
+                              height: '5px',
+                              width: '5px',
+                            }} />
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
                 )
               })}
             </div>

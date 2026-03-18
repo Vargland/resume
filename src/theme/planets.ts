@@ -1,24 +1,33 @@
 import type { PlanetName } from '@open-void-ui/library'
 
+export type PlanetCategory = 'planets' | 'moons' | 'lore'
+
 export interface PlanetMeta {
-  name: PlanetName
-  label: string
   accent: string
+  category: PlanetCategory
+  label: string
+  name: PlanetName
 }
 
 export const PLANETS: PlanetMeta[] = [
-  { name: 'mercury',  label: 'Mercury',  accent: '#7a7670' },
-  { name: 'venus',    label: 'Venus',    accent: '#c86818' },
-  { name: 'earth',    label: 'Earth',    accent: '#2a825a' },
-  { name: 'moon',     label: 'Moon',     accent: '#8888a0' },
-  { name: 'mars',     label: 'Mars',     accent: '#a83018' },
-  { name: 'jupiter',  label: 'Jupiter',  accent: '#8878b0' },
-  { name: 'saturn',   label: 'Saturn',   accent: '#c8a050' },
-  { name: 'europa',   label: 'Europa',   accent: '#5088a8' },
-  { name: 'uranus',   label: 'Uranus',   accent: '#40b0c0' },
-  { name: 'neptune',  label: 'Neptune',  accent: '#3060c8' },
-  { name: 'io',       label: 'Io',       accent: '#c8a820' },
-  { name: 'nostromo', label: 'Nostromo', accent: '#00ff46' },
+  { accent: '#7a7670', category: 'planets', label: 'Mercury',  name: 'mercury'  },
+  { accent: '#c86818', category: 'planets', label: 'Venus',    name: 'venus'    },
+  { accent: '#2a825a', category: 'planets', label: 'Earth',    name: 'earth'    },
+  { accent: '#a83018', category: 'planets', label: 'Mars',     name: 'mars'     },
+  { accent: '#8878b0', category: 'planets', label: 'Jupiter',  name: 'jupiter'  },
+  { accent: '#c8a050', category: 'planets', label: 'Saturn',   name: 'saturn'   },
+  { accent: '#40b0c0', category: 'planets', label: 'Uranus',   name: 'uranus'   },
+  { accent: '#3060c8', category: 'planets', label: 'Neptune',  name: 'neptune'  },
+  { accent: '#8888a0', category: 'moons',   label: 'Moon',     name: 'moon'     },
+  { accent: '#5088a8', category: 'moons',   label: 'Europa',   name: 'europa'   },
+  { accent: '#c8a820', category: 'moons',   label: 'Io',       name: 'io'       },
+  { accent: '#00ff46', category: 'lore',    label: 'Nostromo', name: 'nostromo' },
+]
+
+export const PLANET_GROUPS: { category: PlanetCategory; label: string }[] = [
+  { category: 'planets', label: 'Planets' },
+  { category: 'moons',   label: 'Moons'   },
+  { category: 'lore',    label: 'Lore'    },
 ]
 
 const STORAGE_KEY = 'cv-planet'
