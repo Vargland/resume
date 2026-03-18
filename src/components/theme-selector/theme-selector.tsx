@@ -21,7 +21,12 @@ const planetStyles = `
   }
 `
 
-function PlanetIcon({ accent }: { accent?: string }) {
+interface PlanetIconProps {
+  accent?: string
+}
+
+function PlanetIcon(props: PlanetIconProps) {
+  const { accent } = props
   const color = accent ?? 'var(--void-color-action-primary)'
 
   return (

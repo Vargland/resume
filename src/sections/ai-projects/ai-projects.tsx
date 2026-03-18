@@ -18,11 +18,18 @@ type LinkButtonProps = React.ComponentProps<typeof Button> & {
   rel?: string
   target?: string
 }
+
 const LinkButton = Button as React.ComponentType<LinkButtonProps>
 
-function ProjectCard({ project }: { project: Project }) {
+interface ProjectCardProps {
+  project: Project
+}
+
+function ProjectCard(props: ProjectCardProps) {
+  const { project } = props
+
   return (
-    <article style={{ paddingBottom: '0.5rem', paddingTop: '1.5rem' }}>
+    <article style={{ paddingBottom: '1.5rem', paddingTop: '1.5rem' }}>
       <Stack direction="column" gap={3}>
         <Stack direction="column" gap={1}>
           <Typography as="h3" color="primary" size="xl" weight="semibold">

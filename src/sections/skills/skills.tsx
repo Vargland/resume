@@ -9,7 +9,13 @@ import { memo } from 'react'
 import { useResume } from '../../context/resume-context'
 import type { SkillGroup } from '../../data/schema'
 
-const SkillGroupItem = memo(function SkillGroupItem({ group }: { group: SkillGroup }) {
+interface SkillGroupItemProps {
+  group: SkillGroup
+}
+
+const SkillGroupItem = memo(function SkillGroupItem(props: SkillGroupItemProps) {
+  const { group } = props
+
   return (
     <Stack direction="column" gap={2}>
       <Typography as="p" color="muted" size="xs" weight="semibold">

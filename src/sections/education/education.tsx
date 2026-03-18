@@ -7,7 +7,13 @@ import {
 import { useResume } from '../../context/resume-context'
 import type { EducationEntry } from '../../data/schema'
 
-function EducationItem({ entry }: { entry: EducationEntry }) {
+interface EducationItemProps {
+  entry: EducationEntry
+}
+
+function EducationItem(props: EducationItemProps) {
+  const { entry } = props
+
   if (entry.kind === 'formal') {
     const period = `${entry.period.start} – ${entry.period.end}`
     const subtitle = [entry.institution, entry.location].filter(Boolean).join(', ')

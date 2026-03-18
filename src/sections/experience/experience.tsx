@@ -9,7 +9,13 @@ import { memo } from 'react'
 import { useResume } from '../../context/resume-context'
 import type { Role } from '../../data/schema'
 
-const RoleItem = memo(function RoleItem({ role, isLast }: { isLast: boolean; role: Role }) {
+interface RoleItemProps {
+  isLast: boolean
+  role: Role
+}
+
+const RoleItem = memo(function RoleItem(props: RoleItemProps) {
+  const { isLast, role } = props
   const period = `${role.period.start} – ${role.period.end}`
 
   return (
