@@ -132,19 +132,17 @@ export const ThemeSelector = () => {
       >
 
         {/* Arrow hint */}
-        {true && (
+        {arrowState !== 'hidden' && (
           <Stack
             direction="row"
             align="center"
             gap={2}
+            planet='mars'
             className={arrowState === 'hiding' ? 'theme-arrow-out' : 'theme-arrow'}
             style={{
               pointerEvents: 'none',
               position: 'absolute',
               right: '44px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              whiteSpace: 'nowrap',
             }}
           >
             <Typography
