@@ -13,7 +13,7 @@ interface SkillGroupItemProps {
   group: SkillGroup
 }
 
-const SkillGroupItem = React.memo(function SkillGroupItem(props: SkillGroupItemProps) {
+const SkillGroupItem = React.memo((props: SkillGroupItemProps) => {
   const { group } = props
 
   return (
@@ -32,7 +32,7 @@ const SkillGroupItem = React.memo(function SkillGroupItem(props: SkillGroupItemP
   )
 })
 
-export function Skills() {
+export const Skills = () => {
   const { data } = useResume()
 
   return (

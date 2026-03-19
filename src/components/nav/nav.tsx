@@ -5,7 +5,7 @@ import { Button, Stack, Typography, usePlanet } from '@open-void-ui/library'
 import { useResume } from '../../context/resume-context'
 import { PLANETS } from '../../theme/planets'
 
-export function Nav() {
+export const Nav = () => {
   const [menuOpen, setMenuOpen] = React.useState(false)
 
   const [activeHref, setActiveHref] = React.useState('')

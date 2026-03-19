@@ -14,7 +14,7 @@ import { Skills } from './sections/skills'
 import { Summary } from './sections/summary'
 import { getInitialPlanet } from './theme/planets'
 
-function SeoHead() {
+const SeoHead = () => {
   const { data } = useResume()
 
   const { meta, person } = data
@@ -36,7 +36,7 @@ function SeoHead() {
   )
 }
 
-function Resume() {
+const Resume = () => {
   return (
     <VoidProvider planet={getInitialPlanet()}>
       <SeoHead />
@@ -56,7 +56,7 @@ function Resume() {
   )
 }
 
-export function App() {
+export const App = () => {
   return (
     <HelmetProvider>
       <ResumeProvider>

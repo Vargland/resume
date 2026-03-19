@@ -6,7 +6,7 @@ import {
 
 import { useResume } from '../../context/resume-context'
 
-export function Summary() {
+export const Summary = () => {
   const { data } = useResume()
 
   return (

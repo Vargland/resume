@@ -25,7 +25,7 @@ interface ProjectCardProps {
   project: Project
 }
 
-function ProjectCard(props: ProjectCardProps) {
+const ProjectCard = (props: ProjectCardProps) => {
   const { project } = props
 
   return (
@@ -69,7 +69,7 @@ function ProjectCard(props: ProjectCardProps) {
   )
 }
 
-export function AiProjects() {
+export const AiProjects = () => {
   const { data } = useResume()
 
   return (

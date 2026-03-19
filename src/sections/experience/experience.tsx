@@ -14,7 +14,7 @@ interface RoleItemProps {
   role: Role
 }
 
-const RoleItem = React.memo(function RoleItem(props: RoleItemProps) {
+const RoleItem = React.memo((props: RoleItemProps) => {
   const { isLast, role } = props
 
   const period = `${role.period.start} – ${role.period.end}`
@@ -53,7 +53,7 @@ const RoleItem = React.memo(function RoleItem(props: RoleItemProps) {
   )
 })
 
-export function Experience() {
+export const Experience = () => {
   const { data } = useResume()
 
   return (

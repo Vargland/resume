@@ -52,7 +52,7 @@ interface PlanetIconProps {
   accent?: string
 }
 
-function PlanetIcon(props: PlanetIconProps) {
+const PlanetIcon = (props: PlanetIconProps) => {
   const { accent } = props
 
   const color = accent ?? 'var(--void-color-action-primary)'
@@ -75,7 +75,7 @@ function PlanetIcon(props: PlanetIconProps) {
   )
 }
 
-export function ThemeSelector() {
+export const ThemeSelector = () => {
   const { planet, setPlanet } = usePlanet()
 
   const { data } = useResume()
@@ -106,12 +106,12 @@ export function ThemeSelector() {
     return () => clearTimeout(removeTimer)
   }, [arrowState])
 
-  function dismissArrow() {
+  const dismissArrow = () => {
     setArrowState('hidden')
     setPulsing(false)
   }
 
-  function handleSelect(name: typeof planet) {
+  const handleSelect = (name: typeof planet) => {
     setPlanet(name)
     setOpen(false)
     dismissArrow()

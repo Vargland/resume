@@ -20,7 +20,7 @@ interface ResumeContextValue {
 
 const ResumeContext = createContext<ResumeContextValue | null>(null)
 
-export function ResumeProvider({ children }: { children: React.ReactNode }) {
+export const ResumeProvider = ({ children }: { children: React.ReactNode }) => {
   const [locale, setLocaleState] = useState<Locale>(() => {
     const stored = localStorage.getItem('cv-locale')
 
@@ -40,7 +40,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   return <ResumeContext.Provider value={value}>{children}</ResumeContext.Provider>
 }
 
-export function useResume(): ResumeContextValue {
+export const useResume = (): ResumeContextValue => {
   const ctx = useContext(ResumeContext)
 
   if (!ctx) throw new Error('useResume must be used inside <ResumeProvider>')

@@ -7,7 +7,7 @@ const LOCALES: { label: string; value: Locale }[] = [
   { label: 'ES', value: 'es' },
 ]
 
-export function LocaleSwitcher() {
+export const LocaleSwitcher = () => {
   const { locale, setLocale } = useResume()
 
   return (
