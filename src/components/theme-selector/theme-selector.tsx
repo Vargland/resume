@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Typography, usePlanet } from '@open-void-ui/library'
+
+import { Button, Divider, Stack, Typography, usePlanet } from '@open-void-ui/library'
 
 import { useResume } from '../../context/resume-context'
 import { PLANET_GROUPS, PLANETS, savePlanet } from '../../theme/planets'
@@ -124,18 +125,18 @@ export function ThemeSelector() {
   const current = PLANETS.find(p => p.name === planet)
 
   return (
-
     <>
       <style>{planetStyles}</style>
       <div style={{ position: 'fixed', top: '56px', right: '16px', zIndex: 50 }}>
+
         {/* Arrow hint */}
         {arrowState !== 'hidden' && (
-          <div
+          <Stack
+            direction="row"
+            align="center"
+            gap={2}
             className={arrowState === 'hiding' ? 'theme-arrow-out' : 'theme-arrow'}
             style={{
-              alignItems: 'center',
-              display: 'flex',
-              gap: '6px',
               pointerEvents: 'none',
               position: 'absolute',
               right: '44px',
@@ -144,15 +145,18 @@ export function ThemeSelector() {
               whiteSpace: 'nowrap',
             }}
           >
-            <span style={{
-              color: current?.accent ?? 'var(--void-color-text-secondary)',
-              fontSize: '0.6rem',
-              letterSpacing: '0.1em',
-              opacity: 0.8,
-              textTransform: 'uppercase',
-            }}>
+            <Typography
+              as="span"
+              size="xs"
+              style={{
+                color: current?.accent ?? 'var(--void-color-text-secondary)',
+                letterSpacing: '0.1em',
+                opacity: 0.8,
+                textTransform: 'uppercase',
+              }}
+            >
               {t.toggle}
-            </span>
+            </Typography>
             <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M0 6 H16 M11 1 L18 6 L11 11"
@@ -162,41 +166,33 @@ export function ThemeSelector() {
                 strokeLinejoin="round"
               />
             </svg>
-          </div>
+          </Stack>
         )}
+
         {/* Trigger */}
-        <button
-          onClick={() => { setOpen(o => !o); dismissArrow() }}
+        <Button
+          variant="ghost"
           aria-label={t.toggle}
           aria-expanded={open}
           className={pulsing ? 'theme-btn-pulse' : undefined}
+          onClick={() => { setOpen(o => !o); dismissArrow() }}
           style={{
             '--theme-pulse-color': `${current?.accent ?? 'rgba(139,92,246,0.7)'}99`,
-            width: '36px',
-            height: '36px',
+            alignItems: 'center',
+            borderColor: open || pulsing ? (current?.accent ?? 'var(--void-color-border-default)') : 'var(--void-color-border-default)',
             borderRadius: '50%',
-            background: 'var(--void-color-background-overlay)',
-            border: `1.5px solid ${open || pulsing ? (current?.accent ?? 'var(--void-color-border-default)') : 'var(--void-color-border-default)'}`,
+            borderStyle: 'solid',
+            borderWidth: '1.5px',
             boxShadow: open ? `0 0 12px ${current?.accent}44` : pulsing ? `0 0 8px ${current?.accent}66` : 'none',
             display: 'flex',
-            alignItems: 'center',
+            height: '36px',
             justifyContent: 'center',
-            cursor: 'pointer',
             transition: 'box-shadow 0.3s, border-color 0.3s',
+            width: '36px',
           } as React.CSSProperties}
-          onMouseEnter={e => {
-            e.currentTarget.style.borderColor = current?.accent ?? 'var(--void-color-border-default)'
-            e.currentTarget.style.boxShadow = `0 0 10px ${current?.accent}44`
-          }}
-          onMouseLeave={e => {
-            if (!open) {
-              e.currentTarget.style.borderColor = pulsing ? (current?.accent ?? 'var(--void-color-border-default)') : 'var(--void-color-border-default)'
-              e.currentTarget.style.boxShadow = pulsing ? `0 0 8px ${current?.accent}66` : 'none'
-            }
-          }}
         >
           <PlanetIcon accent={current?.accent} />
-        </button>
+        </Button>
 
         {/* Dropdown */}
         {open && (
@@ -204,34 +200,34 @@ export function ThemeSelector() {
             <div style={{ position: 'fixed', inset: 0, zIndex: 40 }} onClick={() => setOpen(false)} />
             <div
               style={{
-                position: 'absolute',
-                top: 'calc(100% + 8px)',
-                right: 0,
-                zIndex: 50,
-                minWidth: '152px',
+                backdropFilter: 'blur(12px)',
                 background: 'var(--void-color-background-overlay)',
                 border: '1px solid var(--void-color-border-subtle)',
                 borderRadius: 'var(--void-radius-lg)',
                 boxShadow: 'var(--void-shadow-glow)',
-                backdropFilter: 'blur(12px)',
-                padding: '6px',
+                minWidth: '152px',
                 overflow: 'hidden',
+                padding: '6px',
+                position: 'absolute',
+                right: 0,
+                top: 'calc(100% + 8px)',
+                zIndex: 50,
               }}
             >
               {/* Header */}
-              <div style={{
-                padding: '4px 10px 8px',
-                borderBottom: '1px solid var(--void-color-border-subtle)',
-                marginBottom: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-              }}>
+              <Stack direction="row" align="center" gap={2} style={{ padding: '4px 10px 8px' }}>
                 <PlanetIcon accent={current?.accent} />
-                <Typography as="p" size="xs" color="muted" style={{ letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                <Typography
+                  as="p"
+                  size="xs"
+                  color="muted"
+                  style={{ letterSpacing: '0.1em', textTransform: 'uppercase' }}
+                >
                   {t.title}
                 </Typography>
-              </div>
+              </Stack>
+
+              <Divider />
 
               {/* Planet groups */}
               {PLANET_GROUPS.map(({ category }) => {
@@ -241,10 +237,7 @@ export function ThemeSelector() {
 
                 return (
                   <div key={category}>
-                    <div style={{
-                      marginTop: '4px',
-                      padding: '6px 10px 4px',
-                    }}>
+                    <div style={{ marginTop: '4px', padding: '6px 10px 4px' }}>
                       <Typography
                         as="p"
                         color="muted"
@@ -254,58 +247,59 @@ export function ThemeSelector() {
                         {groupLabel}
                       </Typography>
                     </div>
-                    {items.map(p => {
-                      const isActive = planet === p.name
 
-                      return (
-                        <button
-                          key={p.name}
-                          aria-label={`${t.switchTo} ${p.label}`}
-                          style={{
-                            alignItems: 'center',
-                            background: isActive ? 'var(--void-color-background-surface)' : 'transparent',
-                            borderRadius: 'var(--void-radius-sm)',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            gap: '10px',
-                            padding: '6px 10px',
-                            transition: 'background 0.15s',
-                            width: '100%',
-                          }}
-                          onClick={() => handleSelect(p.name)}
-                          onMouseEnter={e => { e.currentTarget.style.background = 'var(--void-color-background-surface)' }}
-                          onMouseLeave={e => { e.currentTarget.style.background = isActive ? 'var(--void-color-background-surface)' : 'transparent' }}
-                        >
-                          <span style={{
-                            background: p.accent,
-                            borderRadius: '50%',
-                            boxShadow: isActive ? `0 0 6px ${p.accent}bb` : 'none',
-                            flexShrink: 0,
-                            height: '8px',
-                            transition: 'box-shadow 0.2s',
-                            width: '8px',
-                          }} />
-                          <Typography
-                            as="span"
-                            color={isActive ? 'primary' : 'secondary'}
-                            size="xs"
-                            style={{ flex: 1, letterSpacing: '0.03em', textAlign: 'left' }}
+                    <Stack direction="column" gap={0}>
+                      {items.map(p => {
+                        const isActive = planet === p.name
+
+                        return (
+                          <Button
+                            key={p.name}
+                            variant="ghost"
+                            size="sm"
+                            aria-label={`${t.switchTo} ${p.label}`}
+                            onClick={() => handleSelect(p.name)}
+                            style={{
+                              background: isActive ? 'var(--void-color-background-surface)' : 'transparent',
+                              borderRadius: 'var(--void-radius-sm)',
+                              display: 'flex',
+                              gap: '10px',
+                              justifyContent: 'flex-start',
+                              padding: '6px 10px',
+                              width: '100%',
+                            }}
                           >
-                            {p.label}
-                          </Typography>
-                          {isActive && (
                             <span style={{
                               background: p.accent,
                               borderRadius: '50%',
-                              boxShadow: `0 0 4px ${p.accent}`,
+                              boxShadow: isActive ? `0 0 6px ${p.accent}bb` : 'none',
                               flexShrink: 0,
-                              height: '5px',
-                              width: '5px',
+                              height: '8px',
+                              transition: 'box-shadow 0.2s',
+                              width: '8px',
                             }} />
-                          )}
-                        </button>
-                      )
-                    })}
+                            <Typography
+                              as="span"
+                              color={isActive ? 'primary' : 'secondary'}
+                              size="xs"
+                              style={{ flex: 1, letterSpacing: '0.03em', textAlign: 'left' }}
+                            >
+                              {p.label}
+                            </Typography>
+                            {isActive && (
+                              <span style={{
+                                background: p.accent,
+                                borderRadius: '50%',
+                                boxShadow: `0 0 4px ${p.accent}`,
+                                flexShrink: 0,
+                                height: '5px',
+                                width: '5px',
+                              }} />
+                            )}
+                          </Button>
+                        )
+                      })}
+                    </Stack>
                   </div>
                 )
               })}

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { usePlanet } from '@open-void-ui/library'
+import { Button, Stack, Typography, usePlanet } from '@open-void-ui/library'
 
 import { useResume } from '../../context/resume-context'
 import { PLANETS } from '../../theme/planets'
@@ -62,19 +62,6 @@ export function Nav() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function linkStyle(href: string) {
-    const isActive = activeHref === href
-
-    return {
-      color: isActive ? accent : 'var(--void-color-text-secondary)',
-      fontSize: '0.75rem',
-      letterSpacing: '0.1em',
-      textTransform: 'uppercase' as const,
-      transition: 'color 0.2s',
-      ...(isActive && { fontWeight: 600 }),
-    }
-  }
-
   return (
     <nav
       id="main-nav"
@@ -90,75 +77,75 @@ export function Nav() {
       }}
     >
       {/* Desktop */}
-      <ul
-        role="list"
+      <Stack
+        as="ul"
+        direction="row"
+        gap={8}
+        justify="center"
         className="void-sm:flex"
-        style={{
-          display: 'none',
-          gap: '32px',
-          justifyContent: 'center',
-          listStyle: 'none',
-        }}
+        style={{ display: 'none', listStyle: 'none' }}
       >
-        {NAV_LINKS.map(({ href, label }) => (
-          <li key={href} style={{ position: 'relative' }}>
-            <a
-              href={href}
-              className="nav-link"
-              style={linkStyle(href)}
-            >
-              {label}
-            </a>
-            {activeHref === href && (
-              <span style={{
-                background: accent,
-                borderRadius: '2px',
-                bottom: '-18px',
-                height: '2px',
-                left: '50%',
-                position: 'absolute',
-                transform: 'translateX(-50%)',
-                width: '100%',
-              }} />
-            )}
-          </li>
-        ))}
-      </ul>
+        {NAV_LINKS.map(({ href, label }) => {
+          const isActive = activeHref === href
+
+          return (
+            <li key={href} style={{ position: 'relative' }}>
+              <Button
+                as="a"
+                href={href}
+                variant="ghost"
+                size="sm"
+                style={{
+                  color: isActive ? accent : 'var(--void-color-text-secondary)',
+                  fontWeight: isActive ? 600 : undefined,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  transition: 'color 0.2s',
+                }}
+              >
+                {label}
+              </Button>
+              {isActive && (
+                <span style={{
+                  background: accent,
+                  borderRadius: '2px',
+                  bottom: '-18px',
+                  height: '2px',
+                  left: '50%',
+                  position: 'absolute',
+                  transform: 'translateX(-50%)',
+                  width: '100%',
+                }} />
+              )}
+            </li>
+          )
+        })}
+      </Stack>
 
       {/* Mobile header */}
-      <div
+      <Stack
+        direction="row"
+        align="center"
+        justify="between"
         className="void-sm:hidden"
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
       >
-        <span
-          style={{
-            color: 'var(--void-color-text-secondary)',
-            fontSize: '0.75rem',
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-          }}
+        <Typography
+          as="span"
+          size="xs"
+          color="secondary"
+          style={{ letterSpacing: '0.1em', textTransform: 'uppercase' }}
         >
           {nav.menu}
-        </span>
-        <button
+        </Typography>
+
+        <Button
+          variant="ghost"
+          size="sm"
           aria-controls="mobile-menu"
           aria-expanded={menuOpen}
           aria-label={nav.toggleMenu}
-          style={{
-            alignItems: 'center',
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '4px',
-            padding: '4px',
-          }}
           onClick={() => setMenuOpen(o => !o)}
+          style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
         >
           {[0, 1, 2].map(i => (
             <span
@@ -178,37 +165,43 @@ export function Nav() {
               }}
             />
           ))}
-        </button>
-      </div>
+        </Button>
+      </Stack>
 
       {/* Mobile dropdown */}
       {menuOpen && (
-        <ul
+        <Stack
+          as="ul"
           id="mobile-menu"
-          role="list"
+          direction="column"
+          gap={4}
           className="void-sm:hidden"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-            listStyle: 'none',
-            paddingBottom: '4px',
-            paddingTop: '16px',
-          }}
+          style={{ listStyle: 'none', paddingBottom: '4px', paddingTop: '16px' }}
         >
-          {NAV_LINKS.map(({ href, label }) => (
-            <li key={href}>
-              <a
-                href={href}
-                className="nav-link"
-                style={linkStyle(href)}
-                onClick={() => setMenuOpen(false)}
-              >
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
+          {NAV_LINKS.map(({ href, label }) => {
+            const isActive = activeHref === href
+
+            return (
+              <li key={href}>
+                <Button
+                  as="a"
+                  href={href}
+                  variant="ghost"
+                  size="sm"
+                  style={{
+                    color: isActive ? accent : 'var(--void-color-text-secondary)',
+                    fontWeight: isActive ? 600 : undefined,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                  }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {label}
+                </Button>
+              </li>
+            )
+          })}
+        </Stack>
       )}
     </nav>
   )
