@@ -4,7 +4,7 @@ import {
   Stack,
   Typography,
 } from '@open-void-ui/library'
-import { memo } from 'react'
+import * as React from 'react'
 
 import { useResume } from '../../context/resume-context'
 import type { SkillGroup } from '../../data/schema'
@@ -13,7 +13,7 @@ interface SkillGroupItemProps {
   group: SkillGroup
 }
 
-const SkillGroupItem = memo(function SkillGroupItem(props: SkillGroupItemProps) {
+const SkillGroupItem = React.memo(function SkillGroupItem(props: SkillGroupItemProps) {
   const { group } = props
 
   return (

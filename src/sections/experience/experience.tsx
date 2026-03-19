@@ -4,7 +4,7 @@ import {
   Stack,
   Typography,
 } from '@open-void-ui/library'
-import { memo } from 'react'
+import * as React from 'react'
 
 import { useResume } from '../../context/resume-context'
 import type { Role } from '../../data/schema'
@@ -14,7 +14,7 @@ interface RoleItemProps {
   role: Role
 }
 
-const RoleItem = memo(function RoleItem(props: RoleItemProps) {
+const RoleItem = React.memo(function RoleItem(props: RoleItemProps) {
   const { isLast, role } = props
 
   const period = `${role.period.start} – ${role.period.end}`

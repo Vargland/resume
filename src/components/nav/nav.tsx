@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import * as React from 'react'
 
 import { Button, Stack, Typography, usePlanet } from '@open-void-ui/library'
 
@@ -6,9 +6,9 @@ import { useResume } from '../../context/resume-context'
 import { PLANETS } from '../../theme/planets'
 
 export function Nav() {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = React.useState(false)
 
-  const [activeHref, setActiveHref] = useState('')
+  const [activeHref, setActiveHref] = React.useState('')
 
   const { data } = useResume()
 
@@ -26,9 +26,9 @@ export function Nav() {
     { href: '#education',  label: nav.education  },
   ]
 
-  const observerRef = useRef<IntersectionObserver | null>(null)
+  const observerRef = React.useRef<IntersectionObserver | null>(null)
 
-  useEffect(() => {
+  React.useEffect(() => {
     const ids = NAV_LINKS.map(l => l.href.slice(1))
 
     const candidates = new Map<string, number>()
@@ -90,21 +90,20 @@ export function Nav() {
 
           return (
             <li key={href} style={{ position: 'relative' }}>
-              <Button
+              <Typography
                 as="a"
-                href={href}
-                variant="ghost"
-                size="sm"
+                {...{ href } as React.AnchorHTMLAttributes<HTMLAnchorElement>}
+                size="xs"
+                color={isActive ? 'primary' : 'secondary'}
+                weight={isActive ? 'semibold' : 'regular'}
                 style={{
-                  color: isActive ? accent : 'var(--void-color-text-secondary)',
-                  fontWeight: isActive ? 600 : undefined,
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   transition: 'color 0.2s',
                 }}
               >
                 {label}
-              </Button>
+              </Typography>
               {isActive && (
                 <span style={{
                   background: accent,
@@ -126,7 +125,7 @@ export function Nav() {
       <Stack
         direction="row"
         align="center"
-        justify="between"
+        justify="space-between"
         className="void-sm:hidden"
       >
         <Typography
@@ -183,21 +182,17 @@ export function Nav() {
 
             return (
               <li key={href}>
-                <Button
+                <Typography
                   as="a"
-                  href={href}
-                  variant="ghost"
-                  size="sm"
-                  style={{
-                    color: isActive ? accent : 'var(--void-color-text-secondary)',
-                    fontWeight: isActive ? 600 : undefined,
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                  }}
+                  {...{ href } as React.AnchorHTMLAttributes<HTMLAnchorElement>}
+                  size="xs"
+                  color={isActive ? 'primary' : 'secondary'}
+                  weight={isActive ? 'semibold' : 'regular'}
+                  style={{ letterSpacing: '0.1em', textTransform: 'uppercase' }}
                   onClick={() => setMenuOpen(false)}
                 >
                   {label}
-                </Button>
+                </Typography>
               </li>
             )
           })}

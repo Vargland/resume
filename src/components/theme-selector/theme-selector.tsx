@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import * as React from 'react'
 
 import { Button, Divider, Stack, Typography, usePlanet } from '@open-void-ui/library'
 
@@ -82,23 +82,23 @@ export function ThemeSelector() {
 
   const t = data.ui.theme
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = React.useState(false)
 
-  const [pulsing, setPulsing] = useState(true)
+  const [pulsing, setPulsing] = React.useState(true)
 
-  const [arrowState, setArrowState] = useState<'visible' | 'hiding' | 'hidden'>('visible')
+  const [arrowState, setArrowState] = React.useState<'visible' | 'hiding' | 'hidden'>('visible')
 
-  useEffect(() => {
+  React.useEffect(() => {
     savePlanet(planet)
   }, [planet])
 
-  useEffect(() => {
+  React.useEffect(() => {
     const hideTimer = setTimeout(() => setArrowState('hiding'), 3200)
 
     return () => clearTimeout(hideTimer)
   }, [])
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (arrowState !== 'hiding') return
 
     const removeTimer = setTimeout(() => setArrowState('hidden'), 400)
