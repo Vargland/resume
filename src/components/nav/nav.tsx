@@ -1,13 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+import { usePlanet } from '@open-void-ui/library'
 
 import { useResume } from '../../context/resume-context'
+import { PLANETS } from '../../theme/planets'
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
 
+  const [activeHref, setActiveHref] = useState('')
+
   const { data } = useResume()
 
+  const { planet } = usePlanet()
+
   const { nav } = data.ui
+
+  const accent = PLANETS.find(p => p.name === planet)?.accent ?? 'var(--void-color-action-primary)'
 
   const NAV_LINKS = [
     { href: '#summary',    label: nav.summary    },
@@ -16,6 +25,55 @@ export function Nav() {
     { href: '#skills',     label: nav.skills     },
     { href: '#education',  label: nav.education  },
   ]
+
+  const observerRef = useRef<IntersectionObserver | null>(null)
+
+  useEffect(() => {
+    const ids = NAV_LINKS.map(l => l.href.slice(1))
+
+    const candidates = new Map<string, number>()
+
+    observerRef.current = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            candidates.set(entry.target.id, entry.intersectionRatio)
+          } else {
+            candidates.delete(entry.target.id)
+          }
+        })
+
+        if (candidates.size === 0) return
+
+        const top = [...candidates.entries()].sort((a, b) => b[1] - a[1])[0][0]
+
+        setActiveHref(`#${top}`)
+      },
+      { rootMargin: '-20% 0px -60% 0px', threshold: [0, 0.1, 0.5, 1] },
+    )
+
+    ids.forEach(id => {
+      const el = document.getElementById(id)
+
+      if (el) observerRef.current!.observe(el)
+    })
+
+    return () => observerRef.current?.disconnect()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  function linkStyle(href: string) {
+    const isActive = activeHref === href
+
+    return {
+      color: isActive ? accent : 'var(--void-color-text-secondary)',
+      fontSize: '0.75rem',
+      letterSpacing: '0.1em',
+      textTransform: 'uppercase' as const,
+      transition: 'color 0.2s',
+      ...(isActive && { fontWeight: 600 }),
+    }
+  }
 
   return (
     <nav
@@ -43,20 +101,26 @@ export function Nav() {
         }}
       >
         {NAV_LINKS.map(({ href, label }) => (
-          <li key={href}>
+          <li key={href} style={{ position: 'relative' }}>
             <a
               href={href}
               className="nav-link"
-              style={{
-                color: 'var(--void-color-text-muted)',
-                fontSize: '0.75rem',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                transition: 'color 0.2s',
-              }}
+              style={linkStyle(href)}
             >
               {label}
             </a>
+            {activeHref === href && (
+              <span style={{
+                background: accent,
+                borderRadius: '2px',
+                bottom: '-18px',
+                height: '2px',
+                left: '50%',
+                position: 'absolute',
+                transform: 'translateX(-50%)',
+                width: '100%',
+              }} />
+            )}
           </li>
         ))}
       </ul>
@@ -72,7 +136,7 @@ export function Nav() {
       >
         <span
           style={{
-            color: 'var(--void-color-text-muted)',
+            color: 'var(--void-color-text-secondary)',
             fontSize: '0.75rem',
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
@@ -100,7 +164,7 @@ export function Nav() {
             <span
               key={i}
               style={{
-                background: 'var(--void-color-text-muted)',
+                background: 'var(--void-color-text-secondary)',
                 display: 'block',
                 height: '1.5px',
                 opacity: menuOpen && i === 1 ? 0 : 1,
@@ -137,12 +201,7 @@ export function Nav() {
               <a
                 href={href}
                 className="nav-link"
-                style={{
-                  color: 'var(--void-color-text-muted)',
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                }}
+                style={linkStyle(href)}
                 onClick={() => setMenuOpen(false)}
               >
                 {label}
