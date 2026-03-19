@@ -26,11 +26,11 @@ export const Summary = () => {
       >
         <Divider label={data.ui.sections.summary} />
         <Stack direction="column" gap={4}>
-          {data.summary.map((paragraph, i) => (
+          {data.summary.map((paragraph, index) => (
             <Typography
-              key={i}
+              key={index}
               as="p"
-              color={i === 0 ? 'primary' : 'secondary'}
+              color={index === 0 ? 'primary' : 'secondary'}
               leading="relaxed"
               size="md"
               dangerouslySetInnerHTML={{ __html: paragraph }}

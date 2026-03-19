@@ -16,7 +16,7 @@ export const Nav = () => {
 
   const { nav } = data.ui
 
-  const accent = PLANETS.find(p => p.name === planet)?.accent ?? 'var(--void-color-action-primary)'
+  const accent = PLANETS.find(planetOption => planetOption.name === planet)?.accent ?? 'var(--void-color-action-primary)'
 
   const NAV_LINKS = [
     { href: '#summary',    label: nav.summary    },
@@ -146,17 +146,17 @@ export const Nav = () => {
           onClick={() => setMenuOpen(o => !o)}
           style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
         >
-          {[0, 1, 2].map(i => (
+          {[0, 1, 2].map(lineIndex => (
             <span
-              key={i}
+              key={lineIndex}
               style={{
                 background: 'var(--void-color-text-secondary)',
                 display: 'block',
                 height: '1.5px',
-                opacity: menuOpen && i === 1 ? 0 : 1,
+                opacity: menuOpen && lineIndex === 1 ? 0 : 1,
                 transform: menuOpen
-                  ? i === 0 ? 'translateY(5.5px) rotate(45deg)'
-                  : i === 2 ? 'translateY(-5.5px) rotate(-45deg)'
+                  ? lineIndex === 0 ? 'translateY(5.5px) rotate(45deg)'
+                  : lineIndex === 2 ? 'translateY(-5.5px) rotate(-45deg)'
                   : 'none'
                   : 'none',
                 transition: 'transform 0.2s, opacity 0.2s',

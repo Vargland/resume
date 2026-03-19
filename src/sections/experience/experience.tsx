@@ -73,10 +73,10 @@ export const Experience = () => {
       >
         <Divider label={data.ui.sections.experience} />
         <Stack direction="column" gap={10}>
-          {data.experience.map((role, i) => (
+          {data.experience.map((role, index) => (
             <RoleItem
               key={`${role.company}-${role.period.start}`}
-              isLast={i === data.experience.length - 1}
+              isLast={index === data.experience.length - 1}
               role={role}
             />
           ))}

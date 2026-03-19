@@ -80,7 +80,7 @@ export const ThemeSelector = () => {
 
   const { data } = useResume()
 
-  const t = data.ui.theme
+  const themeStrings = data.ui.theme
 
   const [open, setOpen] = React.useState(false)
 
@@ -120,10 +120,10 @@ export const ThemeSelector = () => {
     dismissArrow()
   }
 
-  const current = PLANETS.find(p => p.name === planet)
+  const current = PLANETS.find(planetOption => planetOption.name === planet)
 
   return (
-    <>
+    <Stack>
       <style>{planetStyles}</style>
 
       {/* Root wrapper */}
@@ -132,7 +132,7 @@ export const ThemeSelector = () => {
       >
 
         {/* Arrow hint */}
-        {arrowState !== 'hidden' && (
+        {true && (
           <Stack
             direction="row"
             align="center"
@@ -157,7 +157,7 @@ export const ThemeSelector = () => {
                 textTransform: 'uppercase',
               }}
             >
-              {t.toggle}
+              {themeStrings.toggle}
             </Typography>
             <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -174,7 +174,7 @@ export const ThemeSelector = () => {
         {/* Trigger */}
         <Button
           variant="ghost"
-          aria-label={t.toggle}
+          aria-label={themeStrings.toggle}
           aria-expanded={open}
           className={pulsing ? 'theme-btn-pulse' : undefined}
           onClick={() => { setOpen(o => !o); dismissArrow() }}
@@ -233,7 +233,7 @@ export const ThemeSelector = () => {
                   color="muted"
                   style={{ letterSpacing: '0.1em', textTransform: 'uppercase' }}
                 >
-                  {t.title}
+                  {themeStrings.title}
                 </Typography>
               </Stack>
 
@@ -241,9 +241,9 @@ export const ThemeSelector = () => {
 
               {/* Planet groups */}
               {PLANET_GROUPS.map(({ category }) => {
-                const items = PLANETS.filter(p => p.category === category)
+                const items = PLANETS.filter(planetOption => planetOption.category === category)
 
-                const groupLabel = t[category]
+                const groupLabel = themeStrings[category]
 
                 return (
                   <Stack key={category} direction="column" gap={0}>
@@ -259,16 +259,16 @@ export const ThemeSelector = () => {
                     </Stack>
 
                     <Stack direction="column" gap={0}>
-                      {items.map(p => {
-                        const isActive = planet === p.name
+                      {items.map(planetItem => {
+                        const isActive = planet === planetItem.name
 
                         return (
                           <Button
-                            key={p.name}
+                            key={planetItem.name}
                             variant="ghost"
                             size="sm"
-                            aria-label={`${t.switchTo} ${p.label}`}
-                            onClick={() => handleSelect(p.name)}
+                            aria-label={`${themeStrings.switchTo} ${planetItem.label}`}
+                            onClick={() => handleSelect(planetItem.name)}
                             style={{
                               background: isActive ? 'var(--void-color-background-surface)' : 'transparent',
                               borderRadius: 'var(--void-radius-sm)',
@@ -280,9 +280,9 @@ export const ThemeSelector = () => {
                             }}
                           >
                             <span style={{
-                              background: p.accent,
+                              background: planetItem.accent,
                               borderRadius: '50%',
-                              boxShadow: isActive ? `0 0 6px ${p.accent}bb` : 'none',
+                              boxShadow: isActive ? `0 0 6px ${planetItem.accent}bb` : 'none',
                               flexShrink: 0,
                               height: '8px',
                               transition: 'box-shadow 0.2s',
@@ -294,13 +294,13 @@ export const ThemeSelector = () => {
                               size="xs"
                               style={{ flex: 1, letterSpacing: '0.03em', textAlign: 'left' }}
                             >
-                              {p.label}
+                              {planetItem.label}
                             </Typography>
                             {isActive && (
                               <span style={{
-                                background: p.accent,
+                                background: planetItem.accent,
                                 borderRadius: '50%',
-                                boxShadow: `0 0 4px ${p.accent}`,
+                                boxShadow: `0 0 4px ${planetItem.accent}`,
                                 flexShrink: 0,
                                 height: '5px',
                                 width: '5px',
@@ -317,6 +317,6 @@ export const ThemeSelector = () => {
           </>
         )}
       </Stack>
-    </>
+    </Stack>
   )
 }
