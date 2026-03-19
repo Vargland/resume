@@ -5,6 +5,8 @@ import {
   Typography,
 } from '@open-void-ui/library'
 
+import { useResume } from '../../context/resume-context'
+
 type LinkButtonProps = React.ComponentProps<typeof Button> & {
   href?: string
   rel?: string
@@ -13,46 +15,54 @@ type LinkButtonProps = React.ComponentProps<typeof Button> & {
 const LinkButton = Button as React.ComponentType<LinkButtonProps>
 
 export function Hero() {
+  const { data } = useResume()
+
+  const { contact, person } = data
+
   return (
     <section
       id="hero"
-      className="min-h-svh flex flex-col items-center justify-center px-6 pt-16 pb-12"
-      style={{ background: 'var(--void-color-background-base)' }}
+      style={{
+        alignItems: 'center',
+        background: 'var(--void-color-background-base)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        minHeight: '100svh',
+        padding: '4rem 1.5rem 3rem',
+      }}
     >
       <Stack
         align="center"
-        className="w-full text-center"
         direction="column"
         gap={6}
-        style={{ maxWidth: '480px' }}
+        style={{ maxWidth: '480px', textAlign: 'center', width: '100%' }}
       >
         <Avatar
-          alt="Germán Román"
-          className="rounded-full"
+          alt={person.name}
           initials="GR"
-          shape="square"
+          shape="circle"
           size="xl"
+          src="/avatar.png"
+          style={{ boxShadow: 'var(--void-shadow-glow)' }}
         />
-        <Stack
-          align="center"
-          direction="column"
-          gap={2}
-        >
+
+        <Stack align="center" direction="column" gap={2}>
           <Typography as="h1" color="primary" size="4xl" weight="bold">
-            Germán Román
+            {person.name}
           </Typography>
           <Typography as="p" color="secondary" size="md">
-            Senior Frontend Architect & Design Systems Lead
+            {person.title}
           </Typography>
           <Typography as="p" color="muted" size="sm">
-            Remote, Argentina
+            {contact.location}
           </Typography>
         </Stack>
 
         <Stack direction="row" gap={2}>
           <LinkButton
             as="a"
-            href="https://www.linkedin.com/in/german-roman/"
+            href={contact.linkedin}
             rel="noopener noreferrer"
             size="sm"
             target="_blank"
@@ -62,7 +72,7 @@ export function Hero() {
           </LinkButton>
           <LinkButton
             as="a"
-            href="https://github.com/Vargland"
+            href={contact.github}
             rel="noopener noreferrer"
             size="sm"
             target="_blank"
@@ -72,7 +82,7 @@ export function Hero() {
           </LinkButton>
           <LinkButton
             as="a"
-            href="https://www.npmjs.com/~open-void-ui"
+            href={contact.npm}
             rel="noopener noreferrer"
             size="sm"
             target="_blank"

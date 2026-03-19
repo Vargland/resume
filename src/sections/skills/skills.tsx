@@ -1,41 +1,59 @@
-import { Divider, Typography, Badge, Stack } from '@open-void-ui/library'
+import {
+  Badge,
+  Divider,
+  Stack,
+  Typography,
+} from '@open-void-ui/library'
+import { memo } from 'react'
 
-const SKILL_GROUPS = [
-  {
-    category: 'Frontend',
-    skills: ['React 18/19', 'TypeScript', 'Angular', 'Vite', 'GraphQL', 'React Query', 'Redux'],
-  },
-  {
-    category: 'Design Engineering',
-    skills: ['Design Systems', 'CSS Custom Properties', 'SCSS', 'Tailwind CSS', 'Styled Components', 'Storybook'],
-  },
-  {
-    category: 'Testing & QA',
-    skills: ['Vitest', 'Jest', 'Testing Library', 'CI/CD Pipelines'],
-  },
-  {
-    category: 'AI Stack',
-    skills: ['MCP (Model Context Protocol)', 'Claude Code', 'Cursor', 'LLM Integration', 'AI-augmented workflows'],
-  },
-]
+import { useResume } from '../../context/resume-context'
+import type { SkillGroup } from '../../data/schema'
+
+interface SkillGroupItemProps {
+  group: SkillGroup
+}
+
+const SkillGroupItem = memo(function SkillGroupItem(props: SkillGroupItemProps) {
+  const { group } = props
+
+  return (
+    <Stack direction="column" gap={2}>
+      <Typography as="p" color="muted" size="xs" weight="semibold">
+        {group.label.toUpperCase()}
+      </Typography>
+      <ul aria-label={group.label} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
+        {group.items.map((skill) => (
+          <li key={skill}>
+            <Badge size="sm" variant="subtle">{skill}</Badge>
+          </li>
+        ))}
+      </ul>
+    </Stack>
+  )
+})
 
 export function Skills() {
+  const { data } = useResume()
+
   return (
-    <section id="skills" className="px-6" style={{ paddingBottom: "3rem", paddingLeft: "1.5rem", paddingRight: "1.5rem", background: 'var(--void-color-background-base)' }}>
-      <Stack direction="column" gap={8} style={{ maxWidth: '640px', marginLeft: 'auto', marginRight: 'auto' }}>
-        <Divider label="Skills" />
+    <section
+      id="skills"
+      style={{
+        background: 'var(--void-color-background-base)',
+        paddingBottom: '3rem',
+        paddingLeft: '1.5rem',
+        paddingRight: '1.5rem',
+      }}
+    >
+      <Stack
+        direction="column"
+        gap={8}
+        style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '640px' }}
+      >
+        <Divider label={data.ui.sections.skills} />
         <Stack direction="column" gap={6}>
-          {SKILL_GROUPS.map(group => (
-            <Stack key={group.category} direction="column" gap={2}>
-              <Typography as="p" size="xs" weight="semibold" color="muted">
-                {group.category.toUpperCase()}
-              </Typography>
-              <Stack className="flex flex-wrap gap-1.5" gap={2} direction="row" style={{  flexBasis: 'wrap' }}> 
-                {group.skills.map(skill => (
-                  <Badge key={skill} variant="subtle" size="sm">{skill}</Badge>
-                ))}
-              </Stack>
-            </Stack>
+          {data.skillGroups.map((group) => (
+            <SkillGroupItem key={group.label} group={group} />
           ))}
         </Stack>
       </Stack>

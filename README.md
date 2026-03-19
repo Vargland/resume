@@ -1,13 +1,15 @@
-# Germán Román — Resume
+# German Roman — Resume
 
 Personal resume built as a single-page React application, showcasing professional experience, skills, and AI projects.
+
+**Live:** https://vargland.github.io/resume
 
 ## Tech Stack
 
 - **React** + **TypeScript** via Vite
 - **open-void-ui** — custom design system and component library
-- **Tailwind CSS** for utility styling
 - Theming system with multiple planet-inspired themes
+- i18n support (EN / ES)
 
 ## Sections
 
@@ -18,6 +20,11 @@ Personal resume built as a single-page React application, showcasing professiona
 - **Skills** — technical skills
 - **Education** — academic background
 - **Contact** — contact information
+
+## Docs
+
+- [`docs/architecture.md`](docs/architecture.md) — stack, folder structure, data flow, theming, i18n, SEO
+- [`docs/guidelines.md`](docs/guidelines.md) — code style rules, conventions, component patterns
 
 ## Development
 
@@ -30,4 +37,12 @@ npm run dev
 
 ```bash
 npm run build
+```
+
+## Deploy
+
+Publishes to GitHub Pages at https://vargland.github.io/resume
+
+```bash
+npm run deploy
 ```

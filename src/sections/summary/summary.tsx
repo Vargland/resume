@@ -1,24 +1,41 @@
-import { Divider, Typography, Stack } from '@open-void-ui/library'
+import {
+  Divider,
+  Stack,
+  Typography,
+} from '@open-void-ui/library'
+
+import { useResume } from '../../context/resume-context'
 
 export function Summary() {
+  const { data } = useResume()
+
   return (
-    <section id="summary" style={{ paddingBottom: "2rem", paddingLeft: "1.5rem", paddingRight: "1.5rem", background: 'var(--void-color-background-subtle)' }}>
-      <Stack direction="column" gap={8} style={{ maxWidth: '640px', marginLeft: 'auto', marginRight: 'auto' }}>
-        <Divider label="Summary" />
+    <section
+      id="summary"
+      style={{
+        background: 'var(--void-color-background-subtle)',
+        paddingBottom: '2rem',
+        paddingLeft: '1.5rem',
+        paddingRight: '1.5rem',
+      }}
+    >
+      <Stack
+        direction="column"
+        gap={8}
+        style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '640px' }}
+      >
+        <Divider label={data.ui.sections.summary} />
         <Stack direction="column" gap={4}>
-          <Typography as="p" size="md" color="primary" leading="relaxed">
-            Frontend Lead with 8+ years of experience building scalable applications and leading
-            high-performing engineering teams. My background in Psychology uniquely shapes my
-            approach to leadership, team dynamics, and user-centered problem-solving — rare skills
-            in technical profiles that directly impact product quality and velocity.
-          </Typography>
-          <Typography as="p" size="md" color="secondary" leading="relaxed">
-            Expert in{' '}
-            <strong style={{ color: 'var(--void-color-text-accent)', fontWeight: 600 }}>Design Systems</strong>
-            {', '}component architecture, and{' '}
-            <strong style={{ color: 'var(--void-color-text-accent)', fontWeight: 600 }}>AI-augmented development workflows</strong>
-            . I build the tools that make other engineers faster.
-          </Typography>
+          {data.summary.map((paragraph, i) => (
+            <Typography
+              key={i}
+              as="p"
+              color={i === 0 ? 'primary' : 'secondary'}
+              leading="relaxed"
+              size="md"
+              dangerouslySetInnerHTML={{ __html: paragraph }}
+            />
+          ))}
         </Stack>
       </Stack>
     </section>

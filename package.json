@@ -6,22 +6,31 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "lint": "eslint src",
     "preview": "vite preview"
   },
+  "homepage": "https://vargland.github.io/resume",
   "dependencies": {
     "@open-void-ui/library": "^0.4.0",
     "@open-void-ui/tokens": "^0.3.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-helmet-async": "^3.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.2.1",
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/react-helmet-async": "^1.0.1",
     "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^10.0.3",
+    "gh-pages": "^6.3.0",
     "sass": "^1.77.6",
-    "tailwindcss": "^4.2.1",
     "typescript": "^5.4.0",
+    "typescript-eslint": "^8.57.1",
     "vite": "^5.3.4"
   }
 }

@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react'
-import { usePlanet, Typography } from '@open-void-ui/library'
-import { PLANETS, savePlanet } from '../../theme/planets'
+import { useEffect, useState } from 'react'
+import { Typography, usePlanet } from '@open-void-ui/library'
+
+import { useResume } from '../../context/resume-context'
+import { PLANET_GROUPS, PLANETS, savePlanet } from '../../theme/planets'
 
 const planetStyles = `
   @keyframes orbit {
@@ -19,8 +21,15 @@ const planetStyles = `
   }
 `
 
-function PlanetIcon({ accent }: { accent?: string }) {
+interface PlanetIconProps {
+  accent?: string
+}
+
+function PlanetIcon(props: PlanetIconProps) {
+  const { accent } = props
+
   const color = accent ?? 'var(--void-color-action-primary)'
+
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Ring */}
@@ -45,6 +54,11 @@ function PlanetIcon({ accent }: { accent?: string }) {
 
 export function ThemeSelector() {
   const { planet, setPlanet } = usePlanet()
+
+  const { data } = useResume()
+
+  const t = data.ui.theme
+
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -59,13 +73,14 @@ export function ThemeSelector() {
   const current = PLANETS.find(p => p.name === planet)
 
   return (
+
     <>
       <style>{planetStyles}</style>
       <div style={{ position: 'fixed', top: '56px', right: '16px', zIndex: 50 }}>
         {/* Trigger */}
         <button
           onClick={() => setOpen(o => !o)}
-          aria-label="Switch planet theme"
+          aria-label={t.toggle}
           aria-expanded={open}
           style={{
             width: '36px',
@@ -125,62 +140,84 @@ export function ThemeSelector() {
               }}>
                 <PlanetIcon accent={current?.accent} />
                 <Typography as="p" size="xs" color="muted" style={{ letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  Theme
+                  {t.title}
                 </Typography>
               </div>
 
-              {/* Planet list */}
-              {PLANETS.map(p => {
-                const isActive = planet === p.name
+              {/* Planet groups */}
+              {PLANET_GROUPS.map(({ category }) => {
+                const items = PLANETS.filter(p => p.category === category)
+
+                const groupLabel = t[category]
+
                 return (
-                  <button
-                    key={p.name}
-                    onClick={() => handleSelect(p.name)}
-                    aria-label={`Switch to ${p.label}`}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                      width: '100%',
-                      padding: '6px 10px',
-                      borderRadius: 'var(--void-radius-sm)',
-                      background: isActive ? 'var(--void-color-background-surface)' : 'transparent',
-                      cursor: 'pointer',
-                      transition: 'background 0.15s',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--void-color-background-surface)' }}
-                    onMouseLeave={e => { e.currentTarget.style.background = isActive ? 'var(--void-color-background-surface)' : 'transparent' }}
-                  >
-                    <span
-                      style={{
-                        width: '8px',
-                        height: '8px',
-                        borderRadius: '50%',
-                        background: p.accent,
-                        flexShrink: 0,
-                        boxShadow: isActive ? `0 0 6px ${p.accent}bb` : 'none',
-                        transition: 'box-shadow 0.2s',
-                      }}
-                    />
-                    <Typography
-                      as="span"
-                      size="xs"
-                      color={isActive ? 'primary' : 'secondary'}
-                      style={{ flex: 1, textAlign: 'left', letterSpacing: '0.03em' }}
-                    >
-                      {p.label}
-                    </Typography>
-                    {isActive && (
-                      <span style={{
-                        width: '5px',
-                        height: '5px',
-                        borderRadius: '50%',
-                        background: p.accent,
-                        flexShrink: 0,
-                        boxShadow: `0 0 4px ${p.accent}`,
-                      }} />
-                    )}
-                  </button>
+                  <div key={category}>
+                    <div style={{
+                      marginTop: '4px',
+                      padding: '6px 10px 4px',
+                    }}>
+                      <Typography
+                        as="p"
+                        color="muted"
+                        size="xs"
+                        style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}
+                      >
+                        {groupLabel}
+                      </Typography>
+                    </div>
+                    {items.map(p => {
+                      const isActive = planet === p.name
+
+                      return (
+                        <button
+                          key={p.name}
+                          aria-label={`${t.switchTo} ${p.label}`}
+                          style={{
+                            alignItems: 'center',
+                            background: isActive ? 'var(--void-color-background-surface)' : 'transparent',
+                            borderRadius: 'var(--void-radius-sm)',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            gap: '10px',
+                            padding: '6px 10px',
+                            transition: 'background 0.15s',
+                            width: '100%',
+                          }}
+                          onClick={() => handleSelect(p.name)}
+                          onMouseEnter={e => { e.currentTarget.style.background = 'var(--void-color-background-surface)' }}
+                          onMouseLeave={e => { e.currentTarget.style.background = isActive ? 'var(--void-color-background-surface)' : 'transparent' }}
+                        >
+                          <span style={{
+                            background: p.accent,
+                            borderRadius: '50%',
+                            boxShadow: isActive ? `0 0 6px ${p.accent}bb` : 'none',
+                            flexShrink: 0,
+                            height: '8px',
+                            transition: 'box-shadow 0.2s',
+                            width: '8px',
+                          }} />
+                          <Typography
+                            as="span"
+                            color={isActive ? 'primary' : 'secondary'}
+                            size="xs"
+                            style={{ flex: 1, letterSpacing: '0.03em', textAlign: 'left' }}
+                          >
+                            {p.label}
+                          </Typography>
+                          {isActive && (
+                            <span style={{
+                              background: p.accent,
+                              borderRadius: '50%',
+                              boxShadow: `0 0 4px ${p.accent}`,
+                              flexShrink: 0,
+                              height: '5px',
+                              width: '5px',
+                            }} />
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
                 )
               })}
             </div>
