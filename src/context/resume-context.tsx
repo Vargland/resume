@@ -29,6 +29,7 @@ export const ResumeProvider = ({ children }: { children: React.ReactNode }) => {
 
   const setLocale = useCallback((next: Locale) => {
     localStorage.setItem('cv-locale', next)
+
     setLocaleState(next)
   }, [])
 

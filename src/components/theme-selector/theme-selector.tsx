@@ -108,12 +108,15 @@ export const ThemeSelector = () => {
 
   const dismissArrow = () => {
     setArrowState('hidden')
+
     setPulsing(false)
   }
 
   const handleSelect = (name: typeof planet) => {
     setPlanet(name)
+
     setOpen(false)
+
     dismissArrow()
   }
 
