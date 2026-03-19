@@ -25,7 +25,7 @@ interface ProjectCardProps {
   project: Project
 }
 
-function ProjectCard(props: ProjectCardProps) {
+const ProjectCard = (props: ProjectCardProps) => {
   const { project } = props
 
   return (
@@ -43,9 +43,9 @@ function ProjectCard(props: ProjectCardProps) {
         </Typography>
 
         <ul aria-label="Technologies" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
-          {project.tech.map((t) => (
-            <li key={t}>
-              <Badge size="sm" variant="subtle">{t}</Badge>
+          {project.tech.map((techItem) => (
+            <li key={techItem}>
+              <Badge size="sm" variant="subtle">{techItem}</Badge>
             </li>
           ))}
         </ul>
@@ -69,7 +69,7 @@ function ProjectCard(props: ProjectCardProps) {
   )
 }
 
-export function AiProjects() {
+export const AiProjects = () => {
   const { data } = useResume()
 
   return (
@@ -89,13 +89,13 @@ export function AiProjects() {
         <Divider label={data.ui.sections.aiProjects} />
         <Tabs defaultValue={data.projects[0].name} variant="line">
           <TabsList>
-            {data.projects.map((p) => (
-              <TabsTrigger key={p.name} value={p.name}>{p.name}</TabsTrigger>
+            {data.projects.map((project) => (
+              <TabsTrigger key={project.name} value={project.name}>{project.name}</TabsTrigger>
             ))}
           </TabsList>
-          {data.projects.map((p) => (
-            <TabsContent key={p.name} value={p.name}>
-              <ProjectCard project={p} />
+          {data.projects.map((project) => (
+            <TabsContent key={project.name} value={project.name}>
+              <ProjectCard project={project} />
             </TabsContent>
           ))}
         </Tabs>

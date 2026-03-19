@@ -4,7 +4,7 @@ import {
   Stack,
   Typography,
 } from '@open-void-ui/library'
-import { memo } from 'react'
+import * as React from 'react'
 
 import { useResume } from '../../context/resume-context'
 import type { Role } from '../../data/schema'
@@ -14,7 +14,7 @@ interface RoleItemProps {
   role: Role
 }
 
-const RoleItem = memo(function RoleItem(props: RoleItemProps) {
+const RoleItem = React.memo((props: RoleItemProps) => {
   const { isLast, role } = props
 
   const period = `${role.period.start} – ${role.period.end}`
@@ -53,7 +53,7 @@ const RoleItem = memo(function RoleItem(props: RoleItemProps) {
   )
 })
 
-export function Experience() {
+export const Experience = () => {
   const { data } = useResume()
 
   return (
@@ -73,10 +73,10 @@ export function Experience() {
       >
         <Divider label={data.ui.sections.experience} />
         <Stack direction="column" gap={10}>
-          {data.experience.map((role, i) => (
+          {data.experience.map((role, index) => (
             <RoleItem
               key={`${role.company}-${role.period.start}`}
-              isLast={i === data.experience.length - 1}
+              isLast={index === data.experience.length - 1}
               role={role}
             />
           ))}

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Typography, usePlanet } from '@open-void-ui/library'
+import * as React from 'react'
+
+import { Button, Divider, Stack, Typography, usePlanet } from '@open-void-ui/library'
 
 import { useResume } from '../../context/resume-context'
 import { PLANET_GROUPS, PLANETS, savePlanet } from '../../theme/planets'
@@ -51,14 +52,13 @@ interface PlanetIconProps {
   accent?: string
 }
 
-function PlanetIcon(props: PlanetIconProps) {
+const PlanetIcon = (props: PlanetIconProps) => {
   const { accent } = props
 
   const color = accent ?? 'var(--void-color-action-primary)'
 
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Ring */}
       <ellipse
         cx="9" cy="9" rx="8" ry="3"
         stroke={color}
@@ -68,41 +68,37 @@ function PlanetIcon(props: PlanetIconProps) {
         className="planet-ring"
         style={{ transformOrigin: '9px 9px' }}
       />
-      {/* Planet body */}
       <circle cx="9" cy="9" r="4.5" fill={color} opacity="0.9" />
-      {/* Shine */}
       <circle cx="7.5" cy="7.5" r="1.2" fill="white" opacity="0.25" />
-      {/* Moon */}
       <circle cx="9" cy="9" r="1.2" fill="white" opacity="0.7" className="planet-moon" style={{ transformOrigin: '9px 9px' }} />
     </svg>
   )
 }
 
-export function ThemeSelector() {
+export const ThemeSelector = () => {
   const { planet, setPlanet } = usePlanet()
 
   const { data } = useResume()
 
-  const t = data.ui.theme
+  const themeStrings = data.ui.theme
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = React.useState(false)
 
-  const [pulsing, setPulsing] = useState(true)
+  const [pulsing, setPulsing] = React.useState(true)
 
-  const [arrowState, setArrowState] = useState<'visible' | 'hiding' | 'hidden'>('visible')
+  const [arrowState, setArrowState] = React.useState<'visible' | 'hiding' | 'hidden'>('visible')
 
-  useEffect(() => {
+  React.useEffect(() => {
     savePlanet(planet)
   }, [planet])
 
-  useEffect(() => {
-    // arrow-in (0.4s) + arrow-bounce 4×0.7s = ~3.2s total, then fade out
+  React.useEffect(() => {
     const hideTimer = setTimeout(() => setArrowState('hiding'), 3200)
 
     return () => clearTimeout(hideTimer)
   }, [])
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (arrowState !== 'hiding') return
 
     const removeTimer = setTimeout(() => setArrowState('hidden'), 400)
@@ -110,49 +106,57 @@ export function ThemeSelector() {
     return () => clearTimeout(removeTimer)
   }, [arrowState])
 
-  function dismissArrow() {
+  const dismissArrow = () => {
     setArrowState('hidden')
+
     setPulsing(false)
   }
 
-  function handleSelect(name: typeof planet) {
+  const handleSelect = (name: typeof planet) => {
     setPlanet(name)
+
     setOpen(false)
+
     dismissArrow()
   }
 
-  const current = PLANETS.find(p => p.name === planet)
+  const current = PLANETS.find(planetOption => planetOption.name === planet)
 
   return (
-
-    <>
+    <Stack>
       <style>{planetStyles}</style>
-      <div style={{ position: 'fixed', top: '56px', right: '16px', zIndex: 50 }}>
+
+      {/* Root wrapper */}
+      <Stack
+        style={{ position: 'fixed', top: '56px', right: '16px', zIndex: 50 }}
+      >
+
         {/* Arrow hint */}
         {arrowState !== 'hidden' && (
-          <div
+          <Stack
+            direction="row"
+            align="center"
+            gap={2}
+            planet='mars'
             className={arrowState === 'hiding' ? 'theme-arrow-out' : 'theme-arrow'}
             style={{
-              alignItems: 'center',
-              display: 'flex',
-              gap: '6px',
               pointerEvents: 'none',
               position: 'absolute',
               right: '44px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              whiteSpace: 'nowrap',
             }}
           >
-            <span style={{
-              color: current?.accent ?? 'var(--void-color-text-secondary)',
-              fontSize: '0.6rem',
-              letterSpacing: '0.1em',
-              opacity: 0.8,
-              textTransform: 'uppercase',
-            }}>
-              {t.toggle}
-            </span>
+            <Typography
+              as="span"
+              size="xs"
+              style={{
+                color: current?.accent ?? 'var(--void-color-text-secondary)',
+                letterSpacing: '0.1em',
+                opacity: 0.8,
+                textTransform: 'uppercase',
+              }}
+            >
+              {themeStrings.toggle}
+            </Typography>
             <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M0 6 H16 M11 1 L18 6 L11 11"
@@ -162,89 +166,86 @@ export function ThemeSelector() {
                 strokeLinejoin="round"
               />
             </svg>
-          </div>
+          </Stack>
         )}
+
         {/* Trigger */}
-        <button
-          onClick={() => { setOpen(o => !o); dismissArrow() }}
-          aria-label={t.toggle}
+        <Button
+          variant="ghost"
+          aria-label={themeStrings.toggle}
           aria-expanded={open}
           className={pulsing ? 'theme-btn-pulse' : undefined}
+          onClick={() => { setOpen(o => !o); dismissArrow() }}
           style={{
             '--theme-pulse-color': `${current?.accent ?? 'rgba(139,92,246,0.7)'}99`,
-            width: '36px',
-            height: '36px',
+            alignItems: 'center',
+            borderColor: open || pulsing ? (current?.accent ?? 'var(--void-color-border-default)') : 'var(--void-color-border-default)',
             borderRadius: '50%',
-            background: 'var(--void-color-background-overlay)',
-            border: `1.5px solid ${open || pulsing ? (current?.accent ?? 'var(--void-color-border-default)') : 'var(--void-color-border-default)'}`,
+            borderStyle: 'solid',
+            borderWidth: '1.5px',
             boxShadow: open ? `0 0 12px ${current?.accent}44` : pulsing ? `0 0 8px ${current?.accent}66` : 'none',
             display: 'flex',
-            alignItems: 'center',
+            height: '36px',
             justifyContent: 'center',
-            cursor: 'pointer',
             transition: 'box-shadow 0.3s, border-color 0.3s',
+            width: '36px',
           } as React.CSSProperties}
-          onMouseEnter={e => {
-            e.currentTarget.style.borderColor = current?.accent ?? 'var(--void-color-border-default)'
-            e.currentTarget.style.boxShadow = `0 0 10px ${current?.accent}44`
-          }}
-          onMouseLeave={e => {
-            if (!open) {
-              e.currentTarget.style.borderColor = pulsing ? (current?.accent ?? 'var(--void-color-border-default)') : 'var(--void-color-border-default)'
-              e.currentTarget.style.boxShadow = pulsing ? `0 0 8px ${current?.accent}66` : 'none'
-            }
-          }}
         >
           <PlanetIcon accent={current?.accent} />
-        </button>
+        </Button>
 
         {/* Dropdown */}
         {open && (
           <>
-            <div style={{ position: 'fixed', inset: 0, zIndex: 40 }} onClick={() => setOpen(false)} />
-            <div
+            {/* Backdrop */}
+            <Stack
+              onClick={() => setOpen(false)}
+              style={{ bottom: 0, left: 0, position: 'fixed', right: 0, top: 0, zIndex: 40 }}
+            />
+
+            {/* Panel */}
+            <Stack
+              direction="column"
+              gap={0}
               style={{
-                position: 'absolute',
-                top: 'calc(100% + 8px)',
-                right: 0,
-                zIndex: 50,
-                minWidth: '152px',
+                backdropFilter: 'blur(12px)',
                 background: 'var(--void-color-background-overlay)',
                 border: '1px solid var(--void-color-border-subtle)',
                 borderRadius: 'var(--void-radius-lg)',
                 boxShadow: 'var(--void-shadow-glow)',
-                backdropFilter: 'blur(12px)',
-                padding: '6px',
+                minWidth: '152px',
                 overflow: 'hidden',
+                padding: '6px',
+                position: 'absolute',
+                right: 0,
+                top: 'calc(100% + 8px)',
+                zIndex: 50,
               }}
             >
               {/* Header */}
-              <div style={{
-                padding: '4px 10px 8px',
-                borderBottom: '1px solid var(--void-color-border-subtle)',
-                marginBottom: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-              }}>
+              <Stack direction="row" align="center" gap={2} style={{ padding: '4px 10px 8px' }}>
                 <PlanetIcon accent={current?.accent} />
-                <Typography as="p" size="xs" color="muted" style={{ letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  {t.title}
+                <Typography
+                  as="p"
+                  size="xs"
+                  color="muted"
+                  style={{ letterSpacing: '0.1em', textTransform: 'uppercase' }}
+                >
+                  {themeStrings.title}
                 </Typography>
-              </div>
+              </Stack>
+
+              <Divider />
 
               {/* Planet groups */}
               {PLANET_GROUPS.map(({ category }) => {
-                const items = PLANETS.filter(p => p.category === category)
+                const items = PLANETS.filter(planetOption => planetOption.category === category)
 
-                const groupLabel = t[category]
+                const groupLabel = themeStrings[category]
 
                 return (
-                  <div key={category}>
-                    <div style={{
-                      marginTop: '4px',
-                      padding: '6px 10px 4px',
-                    }}>
+                  <Stack key={category} direction="column" gap={0}>
+                    <Stack style={{ marginTop: '4px', padding: '6px 10px 4px' }}>
                       <Typography
                         as="p"
                         color="muted"
@@ -253,66 +254,67 @@ export function ThemeSelector() {
                       >
                         {groupLabel}
                       </Typography>
-                    </div>
-                    {items.map(p => {
-                      const isActive = planet === p.name
+                    </Stack>
 
-                      return (
-                        <button
-                          key={p.name}
-                          aria-label={`${t.switchTo} ${p.label}`}
-                          style={{
-                            alignItems: 'center',
-                            background: isActive ? 'var(--void-color-background-surface)' : 'transparent',
-                            borderRadius: 'var(--void-radius-sm)',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            gap: '10px',
-                            padding: '6px 10px',
-                            transition: 'background 0.15s',
-                            width: '100%',
-                          }}
-                          onClick={() => handleSelect(p.name)}
-                          onMouseEnter={e => { e.currentTarget.style.background = 'var(--void-color-background-surface)' }}
-                          onMouseLeave={e => { e.currentTarget.style.background = isActive ? 'var(--void-color-background-surface)' : 'transparent' }}
-                        >
-                          <span style={{
-                            background: p.accent,
-                            borderRadius: '50%',
-                            boxShadow: isActive ? `0 0 6px ${p.accent}bb` : 'none',
-                            flexShrink: 0,
-                            height: '8px',
-                            transition: 'box-shadow 0.2s',
-                            width: '8px',
-                          }} />
-                          <Typography
-                            as="span"
-                            color={isActive ? 'primary' : 'secondary'}
-                            size="xs"
-                            style={{ flex: 1, letterSpacing: '0.03em', textAlign: 'left' }}
+                    <Stack direction="column" gap={0}>
+                      {items.map(planetItem => {
+                        const isActive = planet === planetItem.name
+
+                        return (
+                          <Button
+                            key={planetItem.name}
+                            variant="ghost"
+                            size="sm"
+                            aria-label={`${themeStrings.switchTo} ${planetItem.label}`}
+                            onClick={() => handleSelect(planetItem.name)}
+                            style={{
+                              background: isActive ? 'var(--void-color-background-surface)' : 'transparent',
+                              borderRadius: 'var(--void-radius-sm)',
+                              display: 'flex',
+                              gap: '10px',
+                              justifyContent: 'flex-start',
+                              padding: '6px 10px',
+                              width: '100%',
+                            }}
                           >
-                            {p.label}
-                          </Typography>
-                          {isActive && (
                             <span style={{
-                              background: p.accent,
+                              background: planetItem.accent,
                               borderRadius: '50%',
-                              boxShadow: `0 0 4px ${p.accent}`,
+                              boxShadow: isActive ? `0 0 6px ${planetItem.accent}bb` : 'none',
                               flexShrink: 0,
-                              height: '5px',
-                              width: '5px',
+                              height: '8px',
+                              transition: 'box-shadow 0.2s',
+                              width: '8px',
                             }} />
-                          )}
-                        </button>
-                      )
-                    })}
-                  </div>
+                            <Typography
+                              as="span"
+                              color={isActive ? 'primary' : 'secondary'}
+                              size="xs"
+                              style={{ flex: 1, letterSpacing: '0.03em', textAlign: 'left' }}
+                            >
+                              {planetItem.label}
+                            </Typography>
+                            {isActive && (
+                              <span style={{
+                                background: planetItem.accent,
+                                borderRadius: '50%',
+                                boxShadow: `0 0 4px ${planetItem.accent}`,
+                                flexShrink: 0,
+                                height: '5px',
+                                width: '5px',
+                              }} />
+                            )}
+                          </Button>
+                        )
+                      })}
+                    </Stack>
+                  </Stack>
                 )
               })}
-            </div>
+            </Stack>
           </>
         )}
-      </div>
-    </>
+      </Stack>
+    </Stack>
   )
 }

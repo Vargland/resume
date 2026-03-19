@@ -11,7 +11,7 @@ interface EducationItemProps {
   entry: EducationEntry
 }
 
-function EducationItem(props: EducationItemProps) {
+const EducationItem = (props: EducationItemProps) => {
   const { entry } = props
 
   if (entry.kind === 'formal') {
@@ -51,7 +51,7 @@ function EducationItem(props: EducationItemProps) {
   )
 }
 
-export function Education() {
+export const Education = () => {
   const { data } = useResume()
 
   return (

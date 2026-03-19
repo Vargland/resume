@@ -2,7 +2,7 @@ import { Stack, Typography } from '@open-void-ui/library'
 
 import { useResume } from '../../context/resume-context'
 
-export function Contact() {
+export const Contact = () => {
   const { data } = useResume()
 
   return (

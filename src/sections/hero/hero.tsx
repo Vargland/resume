@@ -14,7 +14,7 @@ type LinkButtonProps = React.ComponentProps<typeof Button> & {
 }
 const LinkButton = Button as React.ComponentType<LinkButtonProps>
 
-export function Hero() {
+export const Hero = () => {
   const { data } = useResume()
 
   const { contact, person } = data
