@@ -59,7 +59,6 @@ function PlanetIcon(props: PlanetIconProps) {
 
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Ring */}
       <ellipse
         cx="9" cy="9" rx="8" ry="3"
         stroke={color}
@@ -69,11 +68,8 @@ function PlanetIcon(props: PlanetIconProps) {
         className="planet-ring"
         style={{ transformOrigin: '9px 9px' }}
       />
-      {/* Planet body */}
       <circle cx="9" cy="9" r="4.5" fill={color} opacity="0.9" />
-      {/* Shine */}
       <circle cx="7.5" cy="7.5" r="1.2" fill="white" opacity="0.25" />
-      {/* Moon */}
       <circle cx="9" cy="9" r="1.2" fill="white" opacity="0.7" className="planet-moon" style={{ transformOrigin: '9px 9px' }} />
     </svg>
   )
@@ -97,7 +93,6 @@ export function ThemeSelector() {
   }, [planet])
 
   useEffect(() => {
-    // arrow-in (0.4s) + arrow-bounce 4×0.7s = ~3.2s total, then fade out
     const hideTimer = setTimeout(() => setArrowState('hiding'), 3200)
 
     return () => clearTimeout(hideTimer)
@@ -127,7 +122,11 @@ export function ThemeSelector() {
   return (
     <>
       <style>{planetStyles}</style>
-      <div style={{ position: 'fixed', top: '56px', right: '16px', zIndex: 50 }}>
+
+      {/* Root wrapper */}
+      <Stack
+        style={{ position: 'fixed', top: '56px', right: '16px', zIndex: 50 }}
+      >
 
         {/* Arrow hint */}
         {arrowState !== 'hidden' && (
@@ -197,8 +196,16 @@ export function ThemeSelector() {
         {/* Dropdown */}
         {open && (
           <>
-            <div style={{ position: 'fixed', inset: 0, zIndex: 40 }} onClick={() => setOpen(false)} />
-            <div
+            {/* Backdrop */}
+            <Stack
+              onClick={() => setOpen(false)}
+              style={{ bottom: 0, left: 0, position: 'fixed', right: 0, top: 0, zIndex: 40 }}
+            />
+
+            {/* Panel */}
+            <Stack
+              direction="column"
+              gap={0}
               style={{
                 backdropFilter: 'blur(12px)',
                 background: 'var(--void-color-background-overlay)',
@@ -236,8 +243,8 @@ export function ThemeSelector() {
                 const groupLabel = t[category]
 
                 return (
-                  <div key={category}>
-                    <div style={{ marginTop: '4px', padding: '6px 10px 4px' }}>
+                  <Stack key={category} direction="column" gap={0}>
+                    <Stack style={{ marginTop: '4px', padding: '6px 10px 4px' }}>
                       <Typography
                         as="p"
                         color="muted"
@@ -246,7 +253,7 @@ export function ThemeSelector() {
                       >
                         {groupLabel}
                       </Typography>
-                    </div>
+                    </Stack>
 
                     <Stack direction="column" gap={0}>
                       {items.map(p => {
@@ -300,13 +307,13 @@ export function ThemeSelector() {
                         )
                       })}
                     </Stack>
-                  </div>
+                  </Stack>
                 )
               })}
-            </div>
+            </Stack>
           </>
         )}
-      </div>
+      </Stack>
     </>
   )
 }
