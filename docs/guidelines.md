@@ -11,23 +11,57 @@ This file is intended as a reference for AI assistants and contributors alike.
 
 - Sorted alphabetically.
 - When there are **3 or more** named imports from the same module, use cascade format (one per line).
+- Exception: `'react'` always uses `import * as React from 'react'` — see [React import](#react-import).
 
 ```ts
 // ✅ 2 imports — inline
-import { useEffect, useState } from 'react'
+import { Stack, Typography } from '@open-void-ui/library'
 
 // ✅ 3+ imports — cascade
 import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+  Badge,
+  Divider,
+  Stack,
+  Typography,
+} from '@open-void-ui/library'
 ```
 
 - Import order: external packages → internal modules → relative imports.
 - Blank line between import groups (enforced by ESLint).
+
+---
+
+### React import
+
+Always use the namespace import — never destructure from `'react'`.
+
+```ts
+// ✅ Correct
+import * as React from 'react'
+
+// ❌ Incorrect
+import { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+```
+
+All React APIs are accessed via the namespace: `React.useState`, `React.useEffect`, `React.useRef`, `React.memo`, `React.CSSProperties`, etc.
+
+---
+
+### Functions
+
+Always use arrow functions — never function declarations.
+
+```ts
+// ✅ Correct
+export const MyComponent = () => { ... }
+const handleClick = () => { ... }
+const helper = (x: number) => x * 2
+
+// ❌ Incorrect
+export function MyComponent() { ... }
+function handleClick() { ... }
+```
 
 ---
 
@@ -43,16 +77,19 @@ interface ProjectCardProps {
   project: Project
 }
 
-function ProjectCard(props: ProjectCardProps) {
+const ProjectCard = (props: ProjectCardProps) => {
   const { project } = props
   // ...
 }
 
 // ❌ Incorrect — inline destructuring
-function ProjectCard({ project }: { project: Project }) {}
+const ProjectCard = ({ project }: { project: Project }) => {}
 
 // ❌ Incorrect — anonymous type
-function ProjectCard(props: { project: Project }) {}
+const ProjectCard = (props: { project: Project }) => {}
+
+// ❌ Incorrect — function declaration
+function ProjectCard(props: ProjectCardProps) {}
 ```
 
 ---
@@ -87,7 +124,17 @@ return bar
 - **Accessibility**: `aria-label`, `aria-expanded`, `aria-controls` on interactive elements.
 - **No hardcoded strings** in JSX — all copy comes from `useResume()` → `data`.
 - **No inline styles** unless strictly necessary (e.g. dynamic accent colors).
-- Use `React.memo` for list-item components that receive stable props.
+- Use `React.memo` with an arrow function for list-item components that receive stable props.
+
+```ts
+// ✅ Correct
+const RoleItem = React.memo((props: RoleItemProps) => {
+  // ...
+})
+
+// ❌ Incorrect — named function inside memo
+const RoleItem = React.memo(function RoleItem(props: RoleItemProps) {})
+```
 
 ---
 
