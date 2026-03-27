@@ -137,19 +137,18 @@ export const ThemeSelector = () => {
             direction="row"
             align="center"
             gap={2}
-            planet='mars'
             className={arrowState === 'hiding' ? 'theme-arrow-out' : 'theme-arrow'}
             style={{
               pointerEvents: 'none',
               position: 'absolute',
-              right: '44px',
+              right: '45px',
             }}
           >
             <Typography
               as="span"
               size="xs"
+              planet='uranus'
               style={{
-                color: current?.accent ?? 'var(--void-color-text-secondary)',
                 letterSpacing: '0.1em',
                 opacity: 0.8,
                 textTransform: 'uppercase',
